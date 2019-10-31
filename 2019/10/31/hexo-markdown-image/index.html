@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>hexo使用markdown图片 | 博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="hexo markdown中引用图片安装hexo-asset-image 1$ npm install https://github.com/7ym0n/hexo-asset-image --save  配置根目录_config.yml文件中的post_asset_folder为true 1post_asset_folder: true  hexo执行新建文件命令（hexo n xxx）后，会生成">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo使用markdown图片">
+<meta property="og:url" content="http://2024278525.github.io/2019/10/31/hexo-markdown-image/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:description" content="hexo markdown中引用图片安装hexo-asset-image 1$ npm install https://github.com/7ym0n/hexo-asset-image --save  配置根目录_config.yml文件中的post_asset_folder为true 1post_asset_folder: true  hexo执行新建文件命令（hexo n xxx）后，会生成">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-31T08:23:27.479Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hexo使用markdown图片">
+<meta name="twitter:description" content="hexo markdown中引用图片安装hexo-asset-image 1$ npm install https://github.com/7ym0n/hexo-asset-image --save  配置根目录_config.yml文件中的post_asset_folder为true 1post_asset_folder: true  hexo执行新建文件命令（hexo n xxx）后，会生成">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-hexo-markdown-image" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      hexo使用markdown图片
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/31/hexo-markdown-image/" class="article-date">
+  <time datetime="2019-10-31T07:49:23.000Z" itemprop="datePublished">2019-10-31</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="hexo-markdown中引用图片"><a href="#hexo-markdown中引用图片" class="headerlink" title="hexo markdown中引用图片"></a>hexo markdown中引用图片</h4><p>安装hexo-asset-image</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install https://github.com/7ym0n/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>配置根目录_config.yml文件中的post_asset_folder为true</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>hexo执行新建文件命令（hexo n xxx）后，会生成xxx.md与xxx文件夹，把图片放进xxx文件夹中，图片引入方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![alt值](xxx/image.jpg <span class="string">"可选title"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注：</p>
+<p>⑴、本地图片需要上传github后，才会生效，因为最终生成图片路径是：根目录_config.yml文件配置的url + 年月日 + xxx文件 + 图片名称。</p>
+<p>⑵、npm install hexo-asset-image –save，如直接安装会由于版本兼容问题，导致图片路径错误。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/31/book-yimeima/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">依美电子画册</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

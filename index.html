@@ -29,6 +29,95 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hexo-markdown-image" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/31/hexo-markdown-image/">hexo使用markdown图片</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/31/hexo-markdown-image/" class="article-date">
+  <time datetime="2019-10-31T07:49:23.000Z" itemprop="datePublished">2019-10-31</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="hexo-markdown中引用图片"><a href="#hexo-markdown中引用图片" class="headerlink" title="hexo markdown中引用图片"></a>hexo markdown中引用图片</h4><p>安装hexo-asset-image</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install https://github.com/7ym0n/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>配置根目录_config.yml文件中的post_asset_folder为true</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>hexo执行新建文件命令（hexo n xxx）后，会生成xxx.md与xxx文件夹，把图片放进xxx文件夹中，图片引入方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![alt值](xxx/image.jpg <span class="string">"可选title"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注：</p>
+<p>⑴、本地图片需要上传github后，才会生效，因为最终生成图片路径是：根目录_config.yml文件配置的url + 年月日 + xxx文件 + 图片名称。</p>
+<p>⑵、npm install hexo-asset-image –save，如直接安装会由于版本兼容问题，导致图片路径错误。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-book-yimeima" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/31/book-yimeima/">依美电子画册</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/31/book-yimeima/" class="article-date">
+  <time datetime="2019-10-31T07:10:46.000Z" itemprop="datePublished">2019-10-31</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网址： <a href="http://book.yimeima.com" target="_blank" rel="noopener">依美电子画册</a></p>
+<p>依美电子画册是城北科技旗下的营运品牌。</p>
+<p>依美电子画册有助于实现无纸化记录，减少印刷成本，更利于信息的传递。而且制作过程简单快捷，还能包含多媒体资料，能用于宣传、公开信息、说明工作方案等。用户能通过一键生成二维码，随时随地查阅并分享电子画册，无需下载安装软件，只要扫码就能在线阅读，从而加快信息传递的速度，拓宽信息传递的范围。</p>
+<p>工作内容：负责整站前端部分的搭建及维护（官网、用户管理后台）</p>
+<p>（1）官网部分：首页、会员特权、帮助中心、关于我们、电子书在线预览</p>
+<p>（2）用户管理后台：文档上传、数据统计、用户管理、文档管理、充值服务、发票管理、阅读模板、帮助中心编辑、问题反馈等内容的前端页面</p>
+<p><img src="//2024278525.github.io/2019/10/31/book-yimeima/pic.jpg" alt="依美电子画册"><br><img src="//2024278525.github.io/2019/10/31/book-yimeima/pic1.jpg" alt="依美电子画册-在线预览"></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
   
   <div class="article-inner">
@@ -155,10 +244,10 @@
       
         <p>网址: <a href="http://ma.yimeima.com" target="_blank" rel="noopener">依美二维码自助生成系统</a></p>
 <p>该网站支持用户使用多种模板，配合企业的营销、宣传活动，让消费者扫码即可直接参与抽奖、领取积分、领取红包等活动，还能让消费者扫码进入会员积分商城，吸引消费者成为会员，增加用户粘性，促进二次消费。企业可以将二维码附于名片、海报、产品等地方，消费者扫码即可查看企业信息、最新资讯与近期活动，达到高效的宣传推广、营销促销效果。企业还可以将二维码附于办公室门外，用于员工签到、打卡。将二维码附于员工工作证，有效地实现员工信息智能化管理。</p>
-<h3 id="二维码在线生成"><a href="#二维码在线生成" class="headerlink" title="二维码在线生成"></a>二维码在线生成</h3><p>工作内容：官网部分、用户管理后台</p>
-<p>（1）官网部分：首页（二维码生成及美化、模板展示预览）、帮助中心</p>
+<p>工作内容：负责整站前端部分的搭建及维护（官网、用户管理后台）</p>
+<p>（1）官网：首页（二维码生成及美化、模板展示预览）、帮助中心</p>
 <p>（2）用户管理后台</p>
-<p>①注册登录（绑定手机/微信）、找回修改密码<br>②数据统计：二维码数据统计图表<br>③二维码管理：二维码目录增删改、二维码增删改查迁移发布下载、二维码在线购买（微信购买、账号余额购买）、模版展示预览等。<br>④二维码制作：二维码在线制作编辑，微信分享信息、查看权限，统计浏览量等，二维码内容同时在移动与pc端展示。<br>⑤设置：账号信息、企业信息、账号充值、消费记录等</p>
+<p>① 注册登录（绑定手机/微信）、找回修改密码<br>② 数据统计：二维码数据统计图表<br>③ 二维码管理：二维码目录增删改、二维码增删改查迁移发布下载、二维码在线购买（微信购买、账号余额购买）、模版展示预览等。<br>④ 二维码制作：二维码在线制作编辑，微信分享信息、查看权限，统计浏览量等，二维码内容同时在移动与pc端展示。<br>⑤ 设置：账号信息、企业信息、账号充值、消费记录等</p>
 <!-- ⑦⑥⑧⑨⑩⑪⑫ -->
 <p><img src="//2024278525.github.io/2019/10/30/ma-yimeima/pic.jpg" alt="依美二维码自助生成系统"></p>
 
@@ -203,7 +292,6 @@
 <p>工作内容：首页热门推荐、业务员精准搜索、在线聊天、注册登录、成为业务员、个人中心、发布个人简介、联系方式、品牌信息、产品信息、企业介绍、接待咨询、电话回复、关键字和标签设置等、个人认证等模块的页面及数据交互。</p>
 <p><img src="//2024278525.github.io/2019/10/28/zhitan/qr.png" alt="直探小程序"></p>
 <h3 id="直探管理后台"><a href="#直探管理后台" class="headerlink" title="直探管理后台"></a>直探管理后台</h3><p>工作内容：注册登录、用户管理、消息管理等内容的前端页面展示及ui交互。</p>
-<p>技术：jquery + layer。</p>
 <p><img src="//2024278525.github.io/2019/10/28/zhitan/pic.jpg" alt="直探管理后台"></p>
 
       
@@ -226,7 +314,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/27/hexo/">hexo</a>
+      <a class="article-title" href="/2019/09/27/hexo/">hexo基础命令</a>
     </h1>
   
 
@@ -241,7 +329,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-page"><a href="#Create-a-new-page" class="headerlink" title="Create a new page"></a>Create a new page</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page <span class="string">"My New Page"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
