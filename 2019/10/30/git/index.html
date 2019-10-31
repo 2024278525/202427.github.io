@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Git基本操作 | 博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Git 初始化1$ git init  Git 查看状态查看内容作了哪些改动 1$ git status  Git 把文件添加到版本库123$ git add . 或$ git add file  把文件readme.txt添加到仓库 $ git add readme.md Git 把文件提交到仓库1$ git commit -m &quot;comments&quot;  Git 查看分支分支，就是说开发者创建一个">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git基本操作">
+<meta property="og:url" content="http://2024278525.github.io/2019/10/30/git/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:description" content="Git 初始化1$ git init  Git 查看状态查看内容作了哪些改动 1$ git status  Git 把文件添加到版本库123$ git add . 或$ git add file  把文件readme.txt添加到仓库 $ git add readme.md Git 把文件提交到仓库1$ git commit -m &quot;comments&quot;  Git 查看分支分支，就是说开发者创建一个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-30T09:13:11.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git基本操作">
+<meta name="twitter:description" content="Git 初始化1$ git init  Git 查看状态查看内容作了哪些改动 1$ git status  Git 把文件添加到版本库123$ git add . 或$ git add file  把文件readme.txt添加到仓库 $ git add readme.md Git 把文件提交到仓库1$ git commit -m &quot;comments&quot;  Git 查看分支分支，就是说开发者创建一个">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git基本操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/30/git/" class="article-date">
+  <time datetime="2019-10-30T07:45:22.000Z" itemprop="datePublished">2019-10-30</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Git-初始化"><a href="#Git-初始化" class="headerlink" title="Git 初始化"></a>Git 初始化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-查看状态"><a href="#Git-查看状态" class="headerlink" title="Git 查看状态"></a>Git 查看状态</h4><p>查看内容作了哪些改动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-把文件添加到版本库"><a href="#Git-把文件添加到版本库" class="headerlink" title="Git 把文件添加到版本库"></a>Git 把文件添加到版本库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add . </span><br><span class="line">或</span><br><span class="line">$ git add file</span><br></pre></td></tr></table></figure>
+
+<p>把文件readme.txt添加到仓库 $ git add readme.md</p>
+<h4 id="Git-把文件提交到仓库"><a href="#Git-把文件提交到仓库" class="headerlink" title="Git 把文件提交到仓库"></a>Git 把文件提交到仓库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"comments"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-查看分支"><a href="#Git-查看分支" class="headerlink" title="Git 查看分支"></a>Git 查看分支</h4><p>分支，就是说开发者创建一个自己的地盘，不和别人共享；查看分支就是查看当前仓库分支有哪些。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-新建分支"><a href="#Git-新建分支" class="headerlink" title="Git 新建分支"></a>Git 新建分支</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b name</span><br><span class="line">或</span><br><span class="line">git switch -c name</span><br></pre></td></tr></table></figure>
+
+<p>新建名为name的分支，并切换到该分支上。</p>
+<h4 id="Git-切换分支"><a href="#Git-切换分支" class="headerlink" title="Git 切换分支"></a>Git 切换分支</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout name</span><br><span class="line">或</span><br><span class="line">git switch name</span><br></pre></td></tr></table></figure>
+
+<p>把仓库分支，切换到name分支上</p>
+<h4 id="Git-分支合并"><a href="#Git-分支合并" class="headerlink" title="Git 分支合并"></a>Git 分支合并</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git merge name</span><br></pre></td></tr></table></figure>
+
+<p>把指定分支（name）合并到当前分支</p>
+<h4 id="Git-把本地仓库提交到远程仓库上"><a href="#Git-把本地仓库提交到远程仓库上" class="headerlink" title="Git 把本地仓库提交到远程仓库上"></a>Git 把本地仓库提交到远程仓库上</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin name</span><br></pre></td></tr></table></figure>
+
+<p>把提交到远程仓库的name分支上</p>
+<h4 id="Git-把远程仓库的内容pull下来"><a href="#Git-把远程仓库的内容pull下来" class="headerlink" title="Git 把远程仓库的内容pull下来"></a>Git 把远程仓库的内容pull下来</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin master</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/30/yimeima/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">依美二维码官网</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

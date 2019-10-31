@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="博客（2024278525）">
+<meta property="og:url" content="http://2024278525.github.io/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博客（2024278525）">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/30/git/">Git基本操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/30/git/" class="article-date">
+  <time datetime="2019-10-30T07:45:22.000Z" itemprop="datePublished">2019-10-30</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Git-初始化"><a href="#Git-初始化" class="headerlink" title="Git 初始化"></a>Git 初始化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-查看状态"><a href="#Git-查看状态" class="headerlink" title="Git 查看状态"></a>Git 查看状态</h4><p>查看内容作了哪些改动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-把文件添加到版本库"><a href="#Git-把文件添加到版本库" class="headerlink" title="Git 把文件添加到版本库"></a>Git 把文件添加到版本库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add . </span><br><span class="line">或</span><br><span class="line">$ git add file</span><br></pre></td></tr></table></figure>
+
+<p>把文件readme.txt添加到仓库 $ git add readme.md</p>
+<h4 id="Git-把文件提交到仓库"><a href="#Git-把文件提交到仓库" class="headerlink" title="Git 把文件提交到仓库"></a>Git 把文件提交到仓库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"comments"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-查看分支"><a href="#Git-查看分支" class="headerlink" title="Git 查看分支"></a>Git 查看分支</h4><p>分支，就是说开发者创建一个自己的地盘，不和别人共享；查看分支就是查看当前仓库分支有哪些。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-新建分支"><a href="#Git-新建分支" class="headerlink" title="Git 新建分支"></a>Git 新建分支</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b name</span><br><span class="line">或</span><br><span class="line">git switch -c name</span><br></pre></td></tr></table></figure>
+
+<p>新建名为name的分支，并切换到该分支上。</p>
+<h4 id="Git-切换分支"><a href="#Git-切换分支" class="headerlink" title="Git 切换分支"></a>Git 切换分支</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout name</span><br><span class="line">或</span><br><span class="line">git switch name</span><br></pre></td></tr></table></figure>
+
+<p>把仓库分支，切换到name分支上</p>
+<h4 id="Git-分支合并"><a href="#Git-分支合并" class="headerlink" title="Git 分支合并"></a>Git 分支合并</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git merge name</span><br></pre></td></tr></table></figure>
+
+<p>把指定分支（name）合并到当前分支</p>
+<h4 id="Git-把本地仓库提交到远程仓库上"><a href="#Git-把本地仓库提交到远程仓库上" class="headerlink" title="Git 把本地仓库提交到远程仓库上"></a>Git 把本地仓库提交到远程仓库上</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin name</span><br></pre></td></tr></table></figure>
+
+<p>把提交到远程仓库的name分支上</p>
+<h4 id="Git-把远程仓库的内容pull下来"><a href="#Git-把远程仓库的内容pull下来" class="headerlink" title="Git 把远程仓库的内容pull下来"></a>Git 把远程仓库的内容pull下来</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin master</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-yimeima" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/30/yimeima/">依美二维码官网</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/30/yimeima/" class="article-date">
+  <time datetime="2019-10-30T07:10:58.000Z" itemprop="datePublished">2019-10-30</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网址: <a href="http://yimeima.com/" target="_blank" rel="noopener">依美二维码官网</a></p>
+<p>依美二维码（简称：依美码）是城北科技旗下的营运品牌。</p>
+<p>依美码致力于为市场提供以移动互联网创新模式的研发产品及解决方案，深耕于图像识别及近场通讯、移动互联网、大数据、智能营销等领域的科技创新。依美码团队竭诚成为国内领先的大数据赋能整体解决方案提供商，利用二维码等赋码技术，以场景为入口，以数据驱动为手段，搭建集智能营销、渠道管控、防伪溯源、一物一码、新零售、区块链应用等方向的大数据引擎，不仅为企业产品安全保驾护航，更为企业实现信息化战略，开展数字化管理与移动营销提供强有力的支持。依美码自上线以来，就以强大的研发技术、安全可靠的云系统、完善到位的售后服务征服了数以万计的客户。</p>
+<p>工作内容：负责整站前端部分的搭建及维护。</p>
+<p><img src="//2024278525.github.io/2019/10/30/yimeima/pic.jpg" alt="依美二维码官网"></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ma-yimeima" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/30/ma-yimeima/">依美二维码自助生成系统</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/30/ma-yimeima/" class="article-date">
+  <time datetime="2019-10-30T07:00:41.000Z" itemprop="datePublished">2019-10-30</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网址: <a href="http://ma.yimeima.com" target="_blank" rel="noopener">依美二维码自助生成系统</a></p>
+<p>该网站支持用户使用多种模板，配合企业的营销、宣传活动，让消费者扫码即可直接参与抽奖、领取积分、领取红包等活动，还能让消费者扫码进入会员积分商城，吸引消费者成为会员，增加用户粘性，促进二次消费。企业可以将二维码附于名片、海报、产品等地方，消费者扫码即可查看企业信息、最新资讯与近期活动，达到高效的宣传推广、营销促销效果。企业还可以将二维码附于办公室门外，用于员工签到、打卡。将二维码附于员工工作证，有效地实现员工信息智能化管理。</p>
+<h3 id="二维码在线生成"><a href="#二维码在线生成" class="headerlink" title="二维码在线生成"></a>二维码在线生成</h3><p>工作内容：官网部分、用户管理后台</p>
+<p>（1）官网部分：首页（二维码生成及美化、模板展示预览）、帮助中心</p>
+<p>（2）用户管理后台</p>
+<p>①注册登录（绑定手机/微信）、找回修改密码<br>②数据统计：二维码数据统计图表<br>③二维码管理：二维码目录增删改、二维码增删改查迁移发布下载、二维码在线购买（微信购买、账号余额购买）、模版展示预览等。<br>④二维码制作：二维码在线制作编辑，微信分享信息、查看权限，统计浏览量等，二维码内容同时在移动与pc端展示。<br>⑤设置：账号信息、企业信息、账号充值、消费记录等</p>
+<!-- ⑦⑥⑧⑨⑩⑪⑫ -->
+<p><img src="//2024278525.github.io/2019/10/30/ma-yimeima/pic.jpg" alt="依美二维码自助生成系统"></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-zhitan" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/28/zhitan/">直探</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/28/zhitan/" class="article-date">
+  <time datetime="2019-10-28T06:48:20.000Z" itemprop="datePublished">2019-10-28</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网址： <a href="https://51zhitan.com/" target="_blank" rel="noopener">直探</a></p>
+<p>直探主打用户端直达服务端的模式，打破传统业务咨询中“用户——企业——业务员”的咨询路径，采取“用户——业务员”的直达模式，直接实现人与人的连接，突出人的作用，大大提高咨询效率。</p>
+<p>对用户而言，打开直探，就是找业务员。直探直接智能推荐合适的业务员，一键洽谈，直击用户痛点，符合用户的习惯。直探用户端提供关键字搜索、语音搜索、在线咨询、服务比较、查看产品详情、查看名片、电话回拨等功能；服务端让每个业务员拥有专属账号，可以发布个人简介、联系方式、品牌信息、产品信息、企业介绍、接待咨询、电话回复、关键字和标签设置等。标准化的输出，极简的界面，关联智能推荐，快捷咨询响应，这种更轻量化、反馈更及时、更便捷的操作流程给您带来了极佳的咨询体验。直探，随时随地，智能连接，业务咨询就一首歌的功夫，谈业务不能更简单！</p>
+<h3 id="直探小程序"><a href="#直探小程序" class="headerlink" title="直探小程序"></a>直探小程序</h3><p>小程序名称：直探。</p>
+<p>工作内容：首页热门推荐、业务员精准搜索、在线聊天、注册登录、成为业务员、个人中心、发布个人简介、联系方式、品牌信息、产品信息、企业介绍、接待咨询、电话回复、关键字和标签设置等、个人认证等模块的页面及数据交互。</p>
+<p><img src="//2024278525.github.io/2019/10/28/zhitan/qr.png" alt="直探小程序"></p>
+<h3 id="直探管理后台"><a href="#直探管理后台" class="headerlink" title="直探管理后台"></a>直探管理后台</h3><p>工作内容：注册登录、用户管理、消息管理等内容的前端页面展示及ui交互。</p>
+<p>技术：jquery + layer。</p>
+<p><img src="//2024278525.github.io/2019/10/28/zhitan/pic.jpg" alt="直探管理后台"></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/27/hexo/">hexo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/09/27/hexo/" class="article-date">
+  <time datetime="2019-09-27T07:11:11.186Z" itemprop="datePublished">2019-09-27</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>参考: <a href="https://www.jianshu.com/p/53ea31188867" target="_blank" rel="noopener">https://www.jianshu.com/p/53ea31188867</a></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+  
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
