@@ -29,6 +29,171 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-lazy-loading-routes" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/06/lazy-loading-routes/">vue-router：路由懒加载</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/06/lazy-loading-routes/" class="article-date">
+  <time datetime="2019-11-06T06:21:46.000Z" itemprop="datePublished">2019-11-06</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>为什么需要懒加载</strong><br>在单页应用中，如果没有应用懒加载，运用webpack打包后的文件将会异常的大，造成进入首页时，需要加载的内容过多，延时过长，不利于用户体验，而运用懒加载则可以将页面进行划分，需要的时候加载页面，可以有效的分担首页所承担的加载压力，减少首页加载用时</p>
+<p><strong>什么是懒加载</strong><br>懒加载也叫延迟加载，即在需要的时候进行加载，随用随载。</p>
+<p><strong>vue是如何实现路由组件懒加载的</strong><br>结合 <strong>Vue 的异步组件</strong>和 <strong>Webpack 的代码分割功能</strong>，轻松实现路由组件的懒加载。</p>
+<h2 id="Vue-的异步组件"><a href="#Vue-的异步组件" class="headerlink" title="Vue 的异步组件"></a>Vue 的异步组件</h2><p>在大型应用中，我们可能需要将应用分割成小一些的代码块，并且只在需要的时候才从服务器加载一个模块。<br>为了简化，Vue 允许你以一个工厂函数的方式定义你的组件，这个工厂函数会异步解析你的组件定义。<br>Vue 只有在这个组件需要被渲染的时候才会触发该工厂函数，且会把结果缓存起来供未来重渲染。</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">'async-example'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    resolve(&#123;</span><br><span class="line">      template: <span class="string">'&lt;div&gt;i am async!&lt;/div&gt;'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;, <span class="number">1000</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>如你所见，这个工厂函数会收到一个resolve回调，<br>这个回调函数会在你从服务器得到组件定义的时候（组件需要渲染时）被调用。<br>你也可以调用 reject(reason) 来表示加载失败。这里的 setTimeout 是为了演示用的，如何获取组件取决于你自己。</p>
+<h2 id="Webpack代码分割"><a href="#Webpack代码分割" class="headerlink" title="Webpack代码分割"></a>Webpack代码分割</h2><p>能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。</p>
+<p>常用的代码分离方法有三种：</p>
+<p>入口起点：使用 entry 配置手动地分离代码。<br>防止重复：使用 SplitChunksPlugin 去重和分离 chunk。<br>动态导入：通过模块中的内联函数调用来分离代码。</p>
+<p><strong>1、入口起点</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.export = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    index: <span class="string">'./index.js'</span>,</span><br><span class="line">    another: <span class="string">'./another.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dist文件中生成bundle：index.bundle.js、another.bundle.js</span><br></pre></td></tr></table></figure>
+
+<p>这种方式存在一些隐患：</p>
+<p>如果入口 chunk 之间包含一些重复的模块，那些重复模块都会被引入到各个 bundle 中。<br>这种方法不够灵活，并且不能动态地将核心应用程序逻辑中的代码拆分出来。</p>
+<p><strong>2、防止重复</strong><br>在入口起点方法中造成一些模块在两个 bundle 中重复引用。<br>我们可以通过使用 SplitChunksPlugin 插件来移除重复模块。</p>
+<p>SplitChunksPlugin插件可以将公共依赖模块提取到已有的entry chunk中，或者提取到一个新生成的chunk。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.export = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    index: <span class="string">'./index.js'</span>,</span><br><span class="line">    another: <span class="string">'./another.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      chunks: <span class="string">'all'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dist文件中生成bundle：</span><br><span class="line">index.bundle.js、</span><br><span class="line">another.bundle.js、</span><br><span class="line">vendors~another~index.bundle.js</span><br></pre></td></tr></table></figure>
+
+<p>使用 optimization.splitChunks 配置选项，现在可以看到已经从 index.bundle.js 和 another.bundle.js 中删除了重复的依赖项。需要注意的是，此插件将 lodash 这个沉重负担从主 bundle 中移除，然后分离到一个单独的 chunk 中。</p>
+<p><strong>3、动态导入</strong><br>动态代码拆分webpack 提供了两个类似的技术：使用es6 import()语法；使用 webpack 的遗留功能，webpack特定的require.ensure<br>（1）、使用es6 import()语法<br>import() 特性依赖于内置的 Promise，动态地加载模块。<br>调用 动态import() 之处，被作为分离的模块起点，意思是，被请求的模块和它引用的所有子模块，会分离到一个单独的 chunk 中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//webpack.config.js</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.export = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    index: <span class="string">'./index.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    chunkFilename: <span class="string">'[name].bundle.js'</span>, </span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// chunkFilename，它决定 non-entry chunk(非入口 chunk) 的名称</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getComponent</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: 'lodash' */</span> <span class="string">'lodash'</span>).then(<span class="function">(<span class="params">&#123; <span class="keyword">default</span>: _ &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span><br><span class="line">      element.innerHTML = _.join([<span class="string">'Hello'</span>, <span class="string">'webpack'</span>], <span class="string">''</span>)</span><br><span class="line">      <span class="keyword">return</span> element</span><br><span class="line">   &#125;).catch( <span class="function"><span class="params">error</span> =&gt;</span> <span class="string">'An error occurred while loading the component'</span> )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getComponent().then( <span class="function"><span class="params">component</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(component)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">dist文件中生成bundle：index.bundle.js、lodash.bundle.js</span><br></pre></td></tr></table></figure>
+
+<p>注意，在注释中我们提供了 webpackChunkName。这样会将拆分出来的 bundle 命名为 lodash.bundle.js，而不是 [id].bundle.js。</p>
+<p>（2）、使用webpack特定的require.ensure<br>require-ensure在需要的时候才下载依赖的模块；<br>当参数指定的模块都下载下来了（下载下来的模块仅仅是可被使用，并没有被执行），便执行参数指定的回调函数。<br>require-ensure会创建一个chunk，且可以指定该chunk的名称，如果这个chunk名已经存在了，则将本次依赖的模块合并到已经存在的chunk中，最后这个chunk在webpack构建的时候会单独生成一个文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">语法：</span><br><span class="line">require.ensure(</span><br><span class="line">  dependencies: string/[], </span><br><span class="line">  callback: <span class="keyword">function</span>(require), </span><br><span class="line">  chunkname: string</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dependencies：依赖的模块数组</span><br><span class="line">callback：回调函数，该函数调用时会传入一个require参数</span><br><span class="line">chunkname：模块名，用于构建时生成文件时命名使用</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用方式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.export = &#123;</span><br><span class="line">  entry: <span class="string">'./index.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'a'</span>)</span><br><span class="line"><span class="built_in">require</span>.ensure([], <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'b'</span>)</span><br><span class="line">&#125;, <span class="string">'chunk-b'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>.ensure([<span class="string">'./a.js'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'b'</span>)</span><br><span class="line">&#125;, <span class="string">'chunk-c'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'a'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'b'</span>)</span><br><span class="line"></span><br><span class="line">dist文件中生成bundle：index.bundle.js、chunk-b.bundle.js、chunk-c.bundle.js</span><br><span class="line"><span class="comment">//index.js与a.js会打包到index.bundle.js文件中</span></span><br><span class="line"><span class="comment">//b.js会打包到chunk-b.bundle.js文件中</span></span><br><span class="line"><span class="comment">//a.js与b.js会打包到chunk-c.bundle.js文件中</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注：require.ensure 内部依赖于 Promises。</strong></p>
+<h2 id="vue结合异步组件和-Webpack-的代码分割实现路由组件懒加载"><a href="#vue结合异步组件和-Webpack-的代码分割实现路由组件懒加载" class="headerlink" title="vue结合异步组件和 Webpack 的代码分割实现路由组件懒加载"></a>vue结合异步组件和 Webpack 的代码分割实现路由组件懒加载</h2><p><strong>vue异步组件结合Webpack 的代码分割（require.ensure语法）</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">require</span>([<span class="string">'./Foo.vue'</span>], resolve)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/foo'</span>,</span><br><span class="line">      compoent: Foo</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>推荐：vue异步组件结合Webpack 的代码分割（es6 import()语法）</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./Foo.vue'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123; </span><br><span class="line">      path: <span class="string">'/foo'</span>, </span><br><span class="line">      component: Foo</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>有时候我们想把某个路由下的所有组件都打包在同个异步块 (chunk) 中。只需要使用 命名 chunk，一个特殊的注释语法来提供 chunk name (需要 Webpack &gt; 2.4)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: 'group-foo' */</span> <span class="string">'./Foo.vue'</span>)</span><br><span class="line"><span class="keyword">const</span> Bar = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: 'group-foo' */</span> <span class="string">'./Bar.vue'</span>)</span><br><span class="line"><span class="keyword">const</span> Baz = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: 'group-foo' */</span> <span class="string">'./Baz.vue'</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong></p>
+<p>如果您使用的是 Babel，你将需要添加 syntax-dynamic-import 插件，才能使 Babel 可以正确地解析语法。</p>
+<!-- 在webpack中有三种方式实现按需加载：[http://www.bubuko.com/infodetail-3094182.html](http://www.bubuko.com/infodetail-3094182.html)
+
+### require-ensure和require-amd
+
+#### require-amd
+同AMD规范的require函数，使用时传递一个模块数组和回调函数，模块都被下载下来且被执行后才执行回调函数。
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require(dependencies: string/[], callback: <span class="keyword">function</span>)</span><br><span class="line"></span><br><span class="line">dependencies：依赖模块</span><br><span class="line">callback：回调函数</span><br></pre></td></tr></table></figure>
+
+<h4 id="require-ensure"><a href="#require-ensure" class="headerlink" title="require-ensure"></a>require-ensure</h4><p>require-ensure在需要的时候才下载依赖的模块；<br>当参数指定的模块都下载下来了（下载下来的模块还没执行），便执行参数指定的回调函数。<br>require-ensure会创建一个chunk，且可以指定该chunk的名称，如果这个chunk名已经存在了，则将本次依赖的模块合并到已经存在的chunk中，最后这个chunk在webpack构建的时候会单独生成一个文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">require.ensure(</span><br><span class="line">  dependencies: string/[], </span><br><span class="line">  callback: <span class="keyword">function</span>(require), </span><br><span class="line">  chunkname: string</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dependencies：依赖的模块数组</span><br><span class="line">callback：回调函数，该函数调用时会传入一个require参数</span><br><span class="line">chunkname：模块名，用于构建时生成文件时命名使用</span><br></pre></td></tr></table></figure>
+
+<p> –&gt;</p>
+<p><strong>参考</strong><br>vue异步组件：<a href="https://cn.vuejs.org/v2/guide/components-dynamic-async.html#%E5%BC%82%E6%AD%A5%E7%BB%84%E4%BB%B6">https://cn.vuejs.org/v2/guide/components-dynamic-async.html#异步组件</a><br>webpack代码分割：<a href="https://webpack.docschina.org/guides/code-splitting/">https://webpack.docschina.org/guides/code-splitting/</a></p>
+-->
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js-basis" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/06/js-basis/">js：基础知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/06/js-basis/" class="article-date">
+  <time datetime="2019-11-06T01:45:14.000Z" itemprop="datePublished">2019-11-06</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h2><p>值类型：<strong>undefined、string、number、boolean</strong></p>
+<p>引用类型：<strong>object、array、function</strong></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-navigate-guards" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/05/navigate-guards/">vue-router：导航守卫</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/05/navigate-guards/" class="article-date">
+  <time datetime="2019-11-05T08:54:38.000Z" itemprop="datePublished">2019-11-05</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vue-router 提供的导航守卫主要用来通过<strong>跳转或取消</strong>的方式守卫导航。有多种机会植入路由导航过程中：<strong>全局的, 单个路由独享的, 或者组件级的</strong>。</p>
+<p>你可以通过观察 $route 对象来应对这些变化，或使用 beforeRouteUpdate 的组件内守卫。</p>
+<h3 id="完整的导航解析流程"><a href="#完整的导航解析流程" class="headerlink" title="完整的导航解析流程"></a>完整的导航解析流程</h3><p>1、导航被触发。<br>2、在失活的组件里调用离开守卫。<br>3、调用全局的 beforeEach 守卫。<br>4、在重用的组件里调用 beforeRouteUpdate 守卫 (2.2+)。<br>5、在路由配置里调用 beforeEnter。<br>6、解析异步路由组件。<br>7、在被激活的组件里调用 beforeRouteEnter。<br>8、调用全局的 beforeResolve 守卫 (2.5+)。<br>9、导航被确认。<br>10、调用全局的 afterEach 钩子。<br>11、触发 DOM 更新。<br>12、用创建好的实例调用 beforeRouteEnter 守卫中传给 next 的回调函数。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-route-components-props" class="article article-type-post" itemscope itemprop="blogPost">
   
   <div class="article-inner">
@@ -37,7 +202,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/05/route-components-props/">路由组件传参</a>
+      <a class="article-title" href="/2019/11/05/route-components-props/">vue-router：路由组件传参</a>
     </h1>
   
 
@@ -88,7 +253,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/01/query-params/">vue-router的params与query传参</a>
+      <a class="article-title" href="/2019/11/01/query-params/">vue-router：params与query传参</a>
     </h1>
   
 
@@ -138,7 +303,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/31/hexo-markdown-image/">hexo使用markdown图片</a>
+      <a class="article-title" href="/2019/10/31/hexo-markdown-image/">hexo：使用markdown图片</a>
     </h1>
   
 
@@ -163,7 +328,7 @@
 
 <p>注：</p>
 <p>⑴、本地图片需要上传github后，才会生效，因为最终生成图片路径是：根目录_config.yml文件配置的url + 年月日 + xxx文件 + 图片名称。</p>
-<p>⑵、npm install hexo-asset-image –save，如直接安装会由于版本兼容问题，导致图片路径错误。</p>
+<p>⑵、npm install hexo-asset-image –save，如直接安装可能会由于版本兼容问题，导致图片路径错误。</p>
 
       
 
@@ -185,7 +350,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/31/book-yimeima/">依美电子画册</a>
+      <a class="article-title" href="/2019/10/31/book-yimeima/">项目：依美电子画册</a>
     </h1>
   
 
@@ -227,7 +392,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/30/git/">Git基本操作</a>
+      <a class="article-title" href="/2019/10/30/git/">Git：基本操作</a>
     </h1>
   
 
@@ -289,7 +454,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/30/yimeima/">依美二维码官网</a>
+      <a class="article-title" href="/2019/10/30/yimeima/">项目：依美二维码官网</a>
     </h1>
   
 
@@ -329,7 +494,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/30/ma-yimeima/">依美二维码自助生成系统</a>
+      <a class="article-title" href="/2019/10/30/ma-yimeima/">项目：依美二维码自助生成系统</a>
     </h1>
   
 
@@ -364,100 +529,10 @@
 
 
   
-    <article id="post-zhitan" class="article article-type-post" itemscope itemprop="blogPost">
   
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/28/zhitan/">直探</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2019/10/28/zhitan/" class="article-date">
-  <time datetime="2019-10-28T06:48:20.000Z" itemprop="datePublished">2019-10-28</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>网址： <a href="https://51zhitan.com/" target="_blank" rel="noopener">直探</a></p>
-<p>直探主打用户端直达服务端的模式，打破传统业务咨询中“用户——企业——业务员”的咨询路径，采取“用户——业务员”的直达模式，直接实现人与人的连接，突出人的作用，大大提高咨询效率。</p>
-<p>对用户而言，打开直探，就是找业务员。直探直接智能推荐合适的业务员，一键洽谈，直击用户痛点，符合用户的习惯。直探用户端提供关键字搜索、语音搜索、在线咨询、服务比较、查看产品详情、查看名片、电话回拨等功能；服务端让每个业务员拥有专属账号，可以发布个人简介、联系方式、品牌信息、产品信息、企业介绍、接待咨询、电话回复、关键字和标签设置等。标准化的输出，极简的界面，关联智能推荐，快捷咨询响应，这种更轻量化、反馈更及时、更便捷的操作流程给您带来了极佳的咨询体验。直探，随时随地，智能连接，业务咨询就一首歌的功夫，谈业务不能更简单！</p>
-<h3 id="直探小程序"><a href="#直探小程序" class="headerlink" title="直探小程序"></a>直探小程序</h3><p>小程序名称：直探。</p>
-<p>工作内容：首页热门推荐、业务员精准搜索、在线聊天、注册登录、成为业务员、个人中心、发布个人简介、联系方式、品牌信息、产品信息、企业介绍、接待咨询、电话回复、关键字和标签设置等、个人认证等模块的页面及数据交互。</p>
-<p><img src="//2024278525.github.io/2019/10/28/zhitan/qr.png" alt="直探小程序"></p>
-<h3 id="直探管理后台"><a href="#直探管理后台" class="headerlink" title="直探管理后台"></a>直探管理后台</h3><p>工作内容：注册登录、用户管理、消息管理等内容的前端页面展示及ui交互。</p>
-<p><img src="//2024278525.github.io/2019/10/28/zhitan/pic.jpg" alt="直探管理后台"></p>
-
-      
-
-      
-        
-    </div>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/27/hexo/">hexo基础命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2019/09/27/hexo/" class="article-date">
-  <time datetime="2019-09-27T07:11:11.186Z" itemprop="datePublished">2019-09-27</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-page"><a href="#Create-a-new-page" class="headerlink" title="Create a new page"></a>Create a new page</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page <span class="string">"My New Page"</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<p>参考: <a href="https://www.jianshu.com/p/53ea31188867" target="_blank" rel="noopener">https://www.jianshu.com/p/53ea31188867</a></p>
-
-      
-
-      
-        
-    </div>
-  </div>
-  
-</article>
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </section>
         <aside id="sidebar">

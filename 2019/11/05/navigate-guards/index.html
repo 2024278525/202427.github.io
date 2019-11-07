@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>vue-router：导航守卫 | 博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。有多种机会植入路由导航过程中：全局的, 单个路由独享的, 或者组件级的。 你可以通过观察 $route 对象来应对这些变化，或使用 beforeRouteUpdate 的组件内守卫。 完整的导航解析流程1、导航被触发。2、在失活的组件里调用离开守卫。3、调用全局的 beforeEach 守卫。4、在重用的组件里调用 befo">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-router：导航守卫">
+<meta property="og:url" content="http://2024278525.github.io/2019/11/05/navigate-guards/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:description" content="vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。有多种机会植入路由导航过程中：全局的, 单个路由独享的, 或者组件级的。 你可以通过观察 $route 对象来应对这些变化，或使用 beforeRouteUpdate 的组件内守卫。 完整的导航解析流程1、导航被触发。2、在失活的组件里调用离开守卫。3、调用全局的 beforeEach 守卫。4、在重用的组件里调用 befo">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-05T09:33:26.490Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue-router：导航守卫">
+<meta name="twitter:description" content="vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。有多种机会植入路由导航过程中：全局的, 单个路由独享的, 或者组件级的。 你可以通过观察 $route 对象来应对这些变化，或使用 beforeRouteUpdate 的组件内守卫。 完整的导航解析流程1、导航被触发。2、在失活的组件里调用离开守卫。3、调用全局的 beforeEach 守卫。4、在重用的组件里调用 befo">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-navigate-guards" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      vue-router：导航守卫
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/05/navigate-guards/" class="article-date">
+  <time datetime="2019-11-05T08:54:38.000Z" itemprop="datePublished">2019-11-05</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vue-router 提供的导航守卫主要用来通过<strong>跳转或取消</strong>的方式守卫导航。有多种机会植入路由导航过程中：<strong>全局的, 单个路由独享的, 或者组件级的</strong>。</p>
+<p>你可以通过观察 $route 对象来应对这些变化，或使用 beforeRouteUpdate 的组件内守卫。</p>
+<h3 id="完整的导航解析流程"><a href="#完整的导航解析流程" class="headerlink" title="完整的导航解析流程"></a>完整的导航解析流程</h3><p>1、导航被触发。<br>2、在失活的组件里调用离开守卫。<br>3、调用全局的 beforeEach 守卫。<br>4、在重用的组件里调用 beforeRouteUpdate 守卫 (2.2+)。<br>5、在路由配置里调用 beforeEnter。<br>6、解析异步路由组件。<br>7、在被激活的组件里调用 beforeRouteEnter。<br>8、调用全局的 beforeResolve 守卫 (2.5+)。<br>9、导航被确认。<br>10、调用全局的 afterEach 钩子。<br>11、触发 DOM 更新。<br>12、用创建好的实例调用 beforeRouteEnter 守卫中传给 next 的回调函数。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/11/06/js-basis/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          js：基础知识
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/05/route-components-props/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vue-router：路由组件传参</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

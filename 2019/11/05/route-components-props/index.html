@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>路由组件传参 | 博客（2024278525）</title>
+  <title>vue-router：路由组件传参 | 博客（2024278525）</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在组件中使用 $route 会使之与其对应路由形成高度耦合，从而使组件只能在某些特定的 URL 上使用，限制了其灵活性。  如：有一个子组件需要用到参数(id)，在下案例中可以通过$route.params拿到；但是如果该子组件在某个父组件中直接引入使用占位符的形式插入父组件时，该子组件就无法通过$route.params拿到参数（id）了。 12345678const User = &amp;#123;">
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="路由组件传参">
+<meta property="og:title" content="vue-router：路由组件传参">
 <meta property="og:url" content="http://2024278525.github.io/2019/11/05/route-components-props/index.html">
 <meta property="og:site_name" content="博客（2024278525）">
 <meta property="og:description" content="在组件中使用 $route 会使之与其对应路由形成高度耦合，从而使组件只能在某些特定的 URL 上使用，限制了其灵活性。  如：有一个子组件需要用到参数(id)，在下案例中可以通过$route.params拿到；但是如果该子组件在某个父组件中直接引入使用占位符的形式插入父组件时，该子组件就无法通过$route.params拿到参数（id）了。 12345678const User = &amp;#123;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-05T08:19:42.246Z">
+<meta property="og:updated_time" content="2019-11-05T08:26:14.024Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="路由组件传参">
+<meta name="twitter:title" content="vue-router：路由组件传参">
 <meta name="twitter:description" content="在组件中使用 $route 会使之与其对应路由形成高度耦合，从而使组件只能在某些特定的 URL 上使用，限制了其灵活性。  如：有一个子组件需要用到参数(id)，在下案例中可以通过$route.params拿到；但是如果该子组件在某个父组件中直接引入使用占位符的形式插入父组件时，该子组件就无法通过$route.params拿到参数（id）了。 12345678const User = &amp;#123;">
   
     <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
@@ -40,7 +40,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      路由组件传参
+      vue-router：路由组件传参
     </h1>
   
 
@@ -81,10 +81,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2019/11/05/navigate-guards/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          vue-router：导航守卫
+        
+      </div>
+    </a>
+  
   
     <a href="/2019/11/01/query-params/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">vue-router的params与query传参</div>
+      <div class="article-nav-title">vue-router：params与query传参</div>
     </a>
   
 </nav>
