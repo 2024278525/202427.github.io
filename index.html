@@ -29,6 +29,149 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-vuex-mutation" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/11/vuex-mutation/">vuex：mutation</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/11/vuex-mutation/" class="article-date">
+  <time datetime="2019-11-11T09:49:39.000Z" itemprop="datePublished">2019-11-11</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-vuex-getter" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/11/vuex-getter/">vuex：getter</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/11/vuex-getter/" class="article-date">
+  <time datetime="2019-11-11T05:55:05.000Z" itemprop="datePublished">2019-11-11</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Vuex 允许我们在 store 中定义“getter”（可以认为是 store 的计算属性）。就像计算属性一样，getter 的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。</p>
+<p>Getter 接受 state 作为其第一个参数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todos: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">text</span>: <span class="string">'1'</span>, <span class="attr">done</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">text</span>: <span class="string">'2'</span>, <span class="attr">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;, </span><br><span class="line">  getters: &#123;</span><br><span class="line">    doneTodos: <span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> state.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.done)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.js</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123; </span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      a: <span class="string">'1'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, </span><br><span class="line"></span><br><span class="line">  computed: &#123;</span><br><span class="line">    doneTodos () &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.doneTodos <span class="comment">// -&gt; [&#123; id: 1, text: '1', done: true &#125;]</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过属性访问getters"><a href="#通过属性访问getters" class="headerlink" title="通过属性访问getters"></a>通过属性访问getters</h3><p>Getter 会暴露为 store.getters 对象，你可以以属性的形式访问这些值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line">getters: &#123;</span><br><span class="line">  doneTodos: <span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> state.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.done)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//Getter 也可以接受其他 getter 作为第二个参数</span></span><br><span class="line">  doneTodosCount: <span class="function">(<span class="params">state, getters</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> getters.doneTodos.length </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line">computed: &#123;</span><br><span class="line">  doneTodos () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.todoTodos <span class="comment">// -&gt; [&#123; id: 1, text: '1', done: true &#125;]</span></span><br><span class="line">  &#125;,</span><br><span class="line">  doneTodosCount () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.doneTodosCount <span class="comment">// -&gt; 1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意，getter 在通过属性访问时是作为 Vue 的响应式系统的一部分缓存其中的。</strong></p>
+<h3 id="通过方法访问getters"><a href="#通过方法访问getters" class="headerlink" title="通过方法访问getters"></a>通过方法访问getters</h3><p>你也可以通过让 getter 返回一个函数，来实现给 getter 传参。在你对 store 里的数组进行查询时非常有用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line">getters: &#123;</span><br><span class="line">  getTodosById: <span class="function">(<span class="params">state</span>) =&gt;</span> <span class="function">(<span class="params">id</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> state.todos.find(<span class="function"><span class="params">todo</span> =&gt;</span> todo.id === id)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line">computed: &#123;</span><br><span class="line">  getTodoById () &#123;</span><br><span class="line">    <span class="keyword">this</span>.$store.getters.getTodoById(<span class="number">1</span>) <span class="comment">// -&gt; &#123; id: 1, text: '1', done: true &#125;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意，getter 在通过方法访问时，每次都会去进行调用，而不会缓存结果。</strong></p>
+<h2 id="mapGetters-辅助函数"><a href="#mapGetters-辅助函数" class="headerlink" title="mapGetters 辅助函数"></a>mapGetters 辅助函数</h2><p>作用与mapSate相似，mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line">getters: &#123;</span><br><span class="line">  doneTodos: <span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> state.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.done)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"><span class="keyword">import</span> &#123; mapGetters &#125; <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    <span class="comment">//使用对象展开运行符将getter混入computed对象中</span></span><br><span class="line">    ...mapGetters([</span><br><span class="line">      <span class="string">'doneTodos'</span>,</span><br><span class="line">      <span class="comment">//或 如果你想将一个 getter 属性另取一个名字，使用对象形式</span></span><br><span class="line">      <span class="string">'todo'</span>: <span class="string">'doneTodos'</span></span><br><span class="line">    ])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-vuex" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/08/vuex/">Vuex</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/08/vuex/" class="article-date">
+  <time datetime="2019-11-08T02:50:43.000Z" itemprop="datePublished">2019-11-08</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Vuex是什么"><a href="#Vuex是什么" class="headerlink" title="Vuex是什么"></a>Vuex是什么</h2><p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。<br>它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+<h3 id="什么是状态管理模式"><a href="#什么是状态管理模式" class="headerlink" title="什么是状态管理模式"></a>什么是状态管理模式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  <span class="comment">//state</span></span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      count: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//view</span></span><br><span class="line">  template: <span class="string">`&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//actions</span></span><br><span class="line">  methods: &#123;</span><br><span class="line">    increment () &#123;</span><br><span class="line">      <span class="keyword">this</span>.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个状态自管理应用包含以下几个部分：<br>state：驱动应用的数据源<br>view：以声明方式将state映射到视图<br>actions：响应在view上的用户输入导致的状态变化</p>
+<p><img src="//2024278525.github.io/2019/11/08/vuex/flow.png" alt="“单向数据流”理念的简单示意"></p>
+<p>用户在视图（view）操作导致状态变化，<br>（actions）对该状态变化作出响应进而对数据（state）作出修改，<br>修改后的数据（state）驱动应用以声明方式将 state 映射到视图（view）上。</p>
+<p>单个组件都是采用这种状态管理模式的：单向数据流</p>
+<h3 id="为什么需要使用状态管理模式（Vuex）"><a href="#为什么需要使用状态管理模式（Vuex）" class="headerlink" title="为什么需要使用状态管理模式（Vuex）"></a>为什么需要使用状态管理模式（Vuex）</h3><p>但是，当我们的应用遇到<strong>多个组件共享状态</strong>时，单向数据流的简洁性很容易被破坏：</p>
+<p>问题一，传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。<br>问题二，我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。<br>以上的这些模式非常脆弱，通常会导致无法维护的代码。</p>
+<p>因此，我们为什么不把组件的共享状态抽取出来，以一个全局单例模式管理呢？在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为！</p>
+<p>通过定义和隔离状态管理中的各种概念并通过强制规则维持视图和状态间的独立性，我们的代码将会变得更结构化且易维护。<br><img src="//2024278525.github.io/2019/11/08/vuex/vuex.png" alt="Vuex理念的示意图"></p>
+<p><strong>注：</strong><br>每一个 Vuex 应用的核心就是 store（仓库）。“store”基本上就是一个容器，它包含着你的应用中大部分的状态 (state)。Vuex 和单纯的全局对象有以下两点不同：<br>1、Vuex 的状态存储是响应式的。当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会相应地得到高效更新。<br>2、你不能直接改变 store 中的状态。改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation。这样使得我们可以方便地跟踪每一个状态的变化，从而让我们能够实现一些工具帮助我们更好地了解我们的应用。</p>
+<!-- **vuex本质上只是一个公共变量，是存储在浏览器内存中的，刷新页面，浏览器内存重置，数据也会被清空。** -->
+
+<h2 id="如何使用Vuex"><a href="#如何使用Vuex" class="headerlink" title="如何使用Vuex"></a>如何使用Vuex</h2><h3 id="vuex-state"><a href="#vuex-state" class="headerlink" title="vuex-state"></a>vuex-state</h3><p><strong>1、一个组件获取获取单个状态时</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="comment">//创建一个store（仓库）</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"></span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.js</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      dataCount: <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.count <span class="comment">//用data接收</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.count <span class="comment">//用computed接收</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    increment () &#123;</span><br><span class="line">      <span class="comment">//修改store中的状态</span></span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'increment'</span>) <span class="comment">// -&gt; 1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再次强调，我们通过提交 mutation 的方式，而非直接改变 store.state.count，是因为我们想要更明确地追踪到状态的变化。这个简单的约定能够让你的意图更加明显，这样你在阅读代码的时候能更容易地解读应用内部的状态改变。此外，这样也让我们有机会去实现一些能记录每次状态改变，保存状态快照的调试工具。有了它，我们甚至可以实现如时间穿梭般的调试体验。</p>
+<p>由于 store 中的状态是响应式的，在组件中调用 store 中的状态简单到仅需要在计算属性中返回即可。触发变化也仅仅是在组件的 methods 中提交 mutation。</p>
+<p><strong>2、一个组件获取获取多个状态时</strong><br>当一个组件需要获取多个状态时候，将这些状态都声明为计算属性会有些重复和冗余。为了解决这个问题，我们可以使用 mapState 辅助函数帮助我们生成计算属性。</p>
+<p>即mapState 辅助函数仅仅是将 store 中的 state 映射到局部（组件）中的计算属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="comment">//创建一个store（仓库）</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"></span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">0</span>,</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    b: <span class="number">2</span>, </span><br><span class="line">    c: <span class="number">3</span></span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;,</span><br><span class="line">    setState (state, key, value) &#123;</span><br><span class="line">      state[key] = value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.js</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"><span class="keyword">import</span> &#123; mapState &#125; <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      dataCount: <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.count <span class="comment">//用data接收</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//当computed只有state时</span></span><br><span class="line">  computed: mapState(&#123;</span><br><span class="line">    <span class="comment">//第一种写法</span></span><br><span class="line">    count: <span class="string">'count'</span>,</span><br><span class="line">    a: <span class="string">'a'</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//第二种写法：此时箭头函数的this指针并没有指向当前vue实例，</span></span><br><span class="line">    <span class="comment">//不要使用this.dataCount来获取当前vue实例的dataCount值。</span></span><br><span class="line">    count: <span class="function">(<span class="params">state</span>) =&gt;</span> state.count,</span><br><span class="line">    a: <span class="function">(<span class="params">state</span>) =&gt;</span> state.a,</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第三种写法： 为了能够使用 `this` 获取局部状态，必须使用常规函数</span></span><br><span class="line">    count (state) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'count：'</span> + state.count + <span class="keyword">this</span>.dataCount</span><br><span class="line">    &#125;,</span><br><span class="line">    a (state) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'a：'</span> + state.a + <span class="keyword">this</span>.dataCount</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;),</span><br><span class="line"></span><br><span class="line">  <span class="comment">//当computed，state使用对象展开运算符</span></span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapState([<span class="string">'count'</span>, <span class="string">'a'</span>]), <span class="comment">//state，使用对象展开运算符将此对象混入到外部对象中</span></span><br><span class="line"></span><br><span class="line">    d: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.dataCount + <span class="string">'d'</span></span><br><span class="line">    &#125;, </span><br><span class="line">    e (state) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.dataCount + state.count + <span class="string">'e'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    increment () &#123;</span><br><span class="line">      <span class="comment">//修改store中的状态</span></span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'increment'</span>) <span class="comment">// -&gt; 1</span></span><br><span class="line">    &#125;,</span><br><span class="line">    setA () &#123;</span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'setState'</span>, <span class="string">'a'</span>, <span class="number">11</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    setB () &#123;</span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'setState'</span>, <span class="string">'b'</span>, <span class="number">22</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    setC () &#123;</span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'setState'</span>, <span class="string">'c'</span>, <span class="number">33</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：组件仍然保有局部状态</strong></p>
+<p>参考：<br>Vuex：<a href="https://vuex.vuejs.org/zh/installation.html" target="_blank" rel="noopener">https://vuex.vuejs.org/zh/installation.html</a></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-lazy-loading-routes" class="article article-type-post" itemscope itemprop="blogPost">
   
   <div class="article-inner">
@@ -93,6 +236,7 @@
 
 <p><strong>注意</strong></p>
 <p>如果您使用的是 Babel，你将需要添加 syntax-dynamic-import 插件，才能使 Babel 可以正确地解析语法。</p>
+<p><strong>参考</strong><br>vue异步组件：<a href="https://cn.vuejs.org/v2/guide/components-dynamic-async.html#%E5%BC%82%E6%AD%A5%E7%BB%84%E4%BB%B6" target="_blank" rel="noopener">https://cn.vuejs.org/v2/guide/components-dynamic-async.html#异步组件</a><br>webpack代码分割：<a href="https://webpack.docschina.org/guides/code-splitting/" target="_blank" rel="noopener">https://webpack.docschina.org/guides/code-splitting/</a></p>
 <!-- 在webpack中有三种方式实现按需加载：[http://www.bubuko.com/infodetail-3094182.html](http://www.bubuko.com/infodetail-3094182.html)
 
 ### require-ensure和require-amd
@@ -105,7 +249,6 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">require.ensure(</span><br><span class="line">  dependencies: string/[], </span><br><span class="line">  callback: <span class="keyword">function</span>(require), </span><br><span class="line">  chunkname: string</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dependencies：依赖的模块数组</span><br><span class="line">callback：回调函数，该函数调用时会传入一个require参数</span><br><span class="line">chunkname：模块名，用于构建时生成文件时命名使用</span><br></pre></td></tr></table></figure>
 
 <p> –&gt;</p>
-<p><strong>参考</strong><br>vue异步组件：<a href="https://cn.vuejs.org/v2/guide/components-dynamic-async.html#%E5%BC%82%E6%AD%A5%E7%BB%84%E4%BB%B6">https://cn.vuejs.org/v2/guide/components-dynamic-async.html#异步组件</a><br>webpack代码分割：<a href="https://webpack.docschina.org/guides/code-splitting/">https://webpack.docschina.org/guides/code-splitting/</a></p>
 -->
       
 
@@ -371,151 +514,6 @@
 <p>（1）官网部分：首页、会员特权、帮助中心、关于我们、电子书在线预览</p>
 <p>（2）用户管理后台：文档上传、数据统计、用户管理、文档管理、充值服务、发票管理、阅读模板、帮助中心编辑、问题反馈等内容的前端页面</p>
 <p><img src="//2024278525.github.io/2019/10/31/book-yimeima/pic.jpg" alt="依美电子画册"><br><img src="//2024278525.github.io/2019/10/31/book-yimeima/pic1.jpg" alt="依美电子画册-在线预览"></p>
-
-      
-
-      
-        
-    </div>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
-  
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/30/git/">Git：基本操作</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2019/10/30/git/" class="article-date">
-  <time datetime="2019-10-30T07:45:22.000Z" itemprop="datePublished">2019-10-30</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="Git-初始化"><a href="#Git-初始化" class="headerlink" title="Git 初始化"></a>Git 初始化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
-
-<h4 id="Git-查看状态"><a href="#Git-查看状态" class="headerlink" title="Git 查看状态"></a>Git 查看状态</h4><p>查看内容作了哪些改动</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br></pre></td></tr></table></figure>
-
-<h4 id="Git-把文件添加到版本库"><a href="#Git-把文件添加到版本库" class="headerlink" title="Git 把文件添加到版本库"></a>Git 把文件添加到版本库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add . </span><br><span class="line">或</span><br><span class="line">$ git add file</span><br></pre></td></tr></table></figure>
-
-<p>把文件readme.txt添加到仓库 $ git add readme.md</p>
-<h4 id="Git-把文件提交到仓库"><a href="#Git-把文件提交到仓库" class="headerlink" title="Git 把文件提交到仓库"></a>Git 把文件提交到仓库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"comments"</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="Git-查看分支"><a href="#Git-查看分支" class="headerlink" title="Git 查看分支"></a>Git 查看分支</h4><p>分支，就是说开发者创建一个自己的地盘，不和别人共享；查看分支就是查看当前仓库分支有哪些。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch</span><br></pre></td></tr></table></figure>
-
-<h4 id="Git-新建分支"><a href="#Git-新建分支" class="headerlink" title="Git 新建分支"></a>Git 新建分支</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b name</span><br><span class="line">或</span><br><span class="line">git switch -c name</span><br></pre></td></tr></table></figure>
-
-<p>新建名为name的分支，并切换到该分支上。</p>
-<h4 id="Git-切换分支"><a href="#Git-切换分支" class="headerlink" title="Git 切换分支"></a>Git 切换分支</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout name</span><br><span class="line">或</span><br><span class="line">git switch name</span><br></pre></td></tr></table></figure>
-
-<p>把仓库分支，切换到name分支上</p>
-<h4 id="Git-分支合并"><a href="#Git-分支合并" class="headerlink" title="Git 分支合并"></a>Git 分支合并</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git merge name</span><br></pre></td></tr></table></figure>
-
-<p>把指定分支（name）合并到当前分支</p>
-<h4 id="Git-把本地仓库提交到远程仓库上"><a href="#Git-把本地仓库提交到远程仓库上" class="headerlink" title="Git 把本地仓库提交到远程仓库上"></a>Git 把本地仓库提交到远程仓库上</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin name</span><br></pre></td></tr></table></figure>
-
-<p>把提交到远程仓库的name分支上</p>
-<h4 id="Git-把远程仓库的内容pull下来"><a href="#Git-把远程仓库的内容pull下来" class="headerlink" title="Git 把远程仓库的内容pull下来"></a>Git 把远程仓库的内容pull下来</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin master</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-        
-    </div>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-yimeima" class="article article-type-post" itemscope itemprop="blogPost">
-  
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/30/yimeima/">项目：依美二维码官网</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2019/10/30/yimeima/" class="article-date">
-  <time datetime="2019-10-30T07:10:58.000Z" itemprop="datePublished">2019-10-30</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>网址: <a href="http://yimeima.com/" target="_blank" rel="noopener">依美二维码官网</a></p>
-<p>依美二维码（简称：依美码）是城北科技旗下的营运品牌。</p>
-<p>依美码致力于为市场提供以移动互联网创新模式的研发产品及解决方案，深耕于图像识别及近场通讯、移动互联网、大数据、智能营销等领域的科技创新。依美码团队竭诚成为国内领先的大数据赋能整体解决方案提供商，利用二维码等赋码技术，以场景为入口，以数据驱动为手段，搭建集智能营销、渠道管控、防伪溯源、一物一码、新零售、区块链应用等方向的大数据引擎，不仅为企业产品安全保驾护航，更为企业实现信息化战略，开展数字化管理与移动营销提供强有力的支持。依美码自上线以来，就以强大的研发技术、安全可靠的云系统、完善到位的售后服务征服了数以万计的客户。</p>
-<p>工作内容：负责整站前端部分的搭建及维护。</p>
-<p><img src="//2024278525.github.io/2019/10/30/yimeima/pic.jpg" alt="依美二维码官网"></p>
-
-      
-
-      
-        
-    </div>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-ma-yimeima" class="article article-type-post" itemscope itemprop="blogPost">
-  
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/30/ma-yimeima/">项目：依美二维码自助生成系统</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2019/10/30/ma-yimeima/" class="article-date">
-  <time datetime="2019-10-30T07:00:41.000Z" itemprop="datePublished">2019-10-30</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>网址: <a href="http://ma.yimeima.com" target="_blank" rel="noopener">依美二维码自助生成系统</a></p>
-<p>该网站支持用户使用多种模板，配合企业的营销、宣传活动，让消费者扫码即可直接参与抽奖、领取积分、领取红包等活动，还能让消费者扫码进入会员积分商城，吸引消费者成为会员，增加用户粘性，促进二次消费。企业可以将二维码附于名片、海报、产品等地方，消费者扫码即可查看企业信息、最新资讯与近期活动，达到高效的宣传推广、营销促销效果。企业还可以将二维码附于办公室门外，用于员工签到、打卡。将二维码附于员工工作证，有效地实现员工信息智能化管理。</p>
-<p>工作内容：负责整站前端部分的搭建及维护（官网、用户管理后台）</p>
-<p>（1）官网：首页（二维码生成及美化、模板展示预览）、帮助中心</p>
-<p>（2）用户管理后台</p>
-<p>① 注册登录（绑定手机/微信）、找回修改密码<br>② 数据统计：二维码数据统计图表<br>③ 二维码管理：二维码目录增删改、二维码增删改查迁移发布下载、二维码在线购买（微信购买、账号余额购买）、模版展示预览等。<br>④ 二维码制作：二维码在线制作编辑，微信分享信息、查看权限，统计浏览量等，二维码内容同时在移动与pc端展示。<br>⑤ 设置：账号信息、企业信息、账号充值、消费记录等</p>
-<!-- ⑦⑥⑧⑨⑩⑪⑫ -->
-<p><img src="//2024278525.github.io/2019/10/30/ma-yimeima/pic.jpg" alt="依美二维码自助生成系统"></p>
 
       
 

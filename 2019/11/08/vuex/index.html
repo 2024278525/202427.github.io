@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Vuex | 博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Vuex是什么Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。 什么是状态管理模式123456789101112131415161718new Vue(&amp;#123;  //state  data () &amp;#123;    return &amp;#123;      count: 0    &amp;#12">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vuex">
+<meta property="og:url" content="http://2024278525.github.io/2019/11/08/vuex/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:description" content="Vuex是什么Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。 什么是状态管理模式123456789101112131415161718new Vue(&amp;#123;  //state  data () &amp;#123;    return &amp;#123;      count: 0    &amp;#12">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://2024278525.github.io/2019/11/08/vuex/flow.png">
+<meta property="og:image" content="http://2024278525.github.io/2019/11/08/vuex/vuex.png">
+<meta property="og:updated_time" content="2019-11-11T08:33:51.836Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vuex">
+<meta name="twitter:description" content="Vuex是什么Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。 什么是状态管理模式123456789101112131415161718new Vue(&amp;#123;  //state  data () &amp;#123;    return &amp;#123;      count: 0    &amp;#12">
+<meta name="twitter:image" content="http://2024278525.github.io/2019/11/08/vuex/flow.png">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-vuex" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Vuex
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/08/vuex/" class="article-date">
+  <time datetime="2019-11-08T02:50:43.000Z" itemprop="datePublished">2019-11-08</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Vuex是什么"><a href="#Vuex是什么" class="headerlink" title="Vuex是什么"></a>Vuex是什么</h2><p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。<br>它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+<h3 id="什么是状态管理模式"><a href="#什么是状态管理模式" class="headerlink" title="什么是状态管理模式"></a>什么是状态管理模式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  <span class="comment">//state</span></span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      count: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//view</span></span><br><span class="line">  template: <span class="string">`&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//actions</span></span><br><span class="line">  methods: &#123;</span><br><span class="line">    increment () &#123;</span><br><span class="line">      <span class="keyword">this</span>.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个状态自管理应用包含以下几个部分：<br>state：驱动应用的数据源<br>view：以声明方式将state映射到视图<br>actions：响应在view上的用户输入导致的状态变化</p>
+<p><img src="//2024278525.github.io/2019/11/08/vuex/flow.png" alt="“单向数据流”理念的简单示意"></p>
+<p>用户在视图（view）操作导致状态变化，<br>（actions）对该状态变化作出响应进而对数据（state）作出修改，<br>修改后的数据（state）驱动应用以声明方式将 state 映射到视图（view）上。</p>
+<p>单个组件都是采用这种状态管理模式的：单向数据流</p>
+<h3 id="为什么需要使用状态管理模式（Vuex）"><a href="#为什么需要使用状态管理模式（Vuex）" class="headerlink" title="为什么需要使用状态管理模式（Vuex）"></a>为什么需要使用状态管理模式（Vuex）</h3><p>但是，当我们的应用遇到<strong>多个组件共享状态</strong>时，单向数据流的简洁性很容易被破坏：</p>
+<p>问题一，传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。<br>问题二，我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。<br>以上的这些模式非常脆弱，通常会导致无法维护的代码。</p>
+<p>因此，我们为什么不把组件的共享状态抽取出来，以一个全局单例模式管理呢？在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为！</p>
+<p>通过定义和隔离状态管理中的各种概念并通过强制规则维持视图和状态间的独立性，我们的代码将会变得更结构化且易维护。<br><img src="//2024278525.github.io/2019/11/08/vuex/vuex.png" alt="Vuex理念的示意图"></p>
+<p><strong>注：</strong><br>每一个 Vuex 应用的核心就是 store（仓库）。“store”基本上就是一个容器，它包含着你的应用中大部分的状态 (state)。Vuex 和单纯的全局对象有以下两点不同：<br>1、Vuex 的状态存储是响应式的。当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会相应地得到高效更新。<br>2、你不能直接改变 store 中的状态。改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation。这样使得我们可以方便地跟踪每一个状态的变化，从而让我们能够实现一些工具帮助我们更好地了解我们的应用。</p>
+<!-- **vuex本质上只是一个公共变量，是存储在浏览器内存中的，刷新页面，浏览器内存重置，数据也会被清空。** -->
+
+<h2 id="如何使用Vuex"><a href="#如何使用Vuex" class="headerlink" title="如何使用Vuex"></a>如何使用Vuex</h2><h3 id="vuex-state"><a href="#vuex-state" class="headerlink" title="vuex-state"></a>vuex-state</h3><p><strong>1、一个组件获取获取单个状态时</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="comment">//创建一个store（仓库）</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"></span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.js</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      dataCount: <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.count <span class="comment">//用data接收</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.count <span class="comment">//用computed接收</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    increment () &#123;</span><br><span class="line">      <span class="comment">//修改store中的状态</span></span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'increment'</span>) <span class="comment">// -&gt; 1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再次强调，我们通过提交 mutation 的方式，而非直接改变 store.state.count，是因为我们想要更明确地追踪到状态的变化。这个简单的约定能够让你的意图更加明显，这样你在阅读代码的时候能更容易地解读应用内部的状态改变。此外，这样也让我们有机会去实现一些能记录每次状态改变，保存状态快照的调试工具。有了它，我们甚至可以实现如时间穿梭般的调试体验。</p>
+<p>由于 store 中的状态是响应式的，在组件中调用 store 中的状态简单到仅需要在计算属性中返回即可。触发变化也仅仅是在组件的 methods 中提交 mutation。</p>
+<p><strong>2、一个组件获取获取多个状态时</strong><br>当一个组件需要获取多个状态时候，将这些状态都声明为计算属性会有些重复和冗余。为了解决这个问题，我们可以使用 mapState 辅助函数帮助我们生成计算属性。</p>
+<p>即mapState 辅助函数仅仅是将 store 中的 state 映射到局部（组件）中的计算属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="comment">//创建一个store（仓库）</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"></span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">0</span>,</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    b: <span class="number">2</span>, </span><br><span class="line">    c: <span class="number">3</span></span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;,</span><br><span class="line">    setState (state, key, value) &#123;</span><br><span class="line">      state[key] = value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.js</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"><span class="keyword">import</span> &#123; mapState &#125; <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      dataCount: <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.count <span class="comment">//用data接收</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//当computed只有state时</span></span><br><span class="line">  computed: mapState(&#123;</span><br><span class="line">    <span class="comment">//第一种写法</span></span><br><span class="line">    count: <span class="string">'count'</span>,</span><br><span class="line">    a: <span class="string">'a'</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//第二种写法：此时箭头函数的this指针并没有指向当前vue实例，</span></span><br><span class="line">    <span class="comment">//不要使用this.dataCount来获取当前vue实例的dataCount值。</span></span><br><span class="line">    count: <span class="function">(<span class="params">state</span>) =&gt;</span> state.count,</span><br><span class="line">    a: <span class="function">(<span class="params">state</span>) =&gt;</span> state.a,</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第三种写法： 为了能够使用 `this` 获取局部状态，必须使用常规函数</span></span><br><span class="line">    count (state) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'count：'</span> + state.count + <span class="keyword">this</span>.dataCount</span><br><span class="line">    &#125;,</span><br><span class="line">    a (state) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'a：'</span> + state.a + <span class="keyword">this</span>.dataCount</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;),</span><br><span class="line"></span><br><span class="line">  <span class="comment">//当computed，state使用对象展开运算符</span></span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapState([<span class="string">'count'</span>, <span class="string">'a'</span>]), <span class="comment">//state，使用对象展开运算符将此对象混入到外部对象中</span></span><br><span class="line"></span><br><span class="line">    d: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.dataCount + <span class="string">'d'</span></span><br><span class="line">    &#125;, </span><br><span class="line">    e (state) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.dataCount + state.count + <span class="string">'e'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    increment () &#123;</span><br><span class="line">      <span class="comment">//修改store中的状态</span></span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'increment'</span>) <span class="comment">// -&gt; 1</span></span><br><span class="line">    &#125;,</span><br><span class="line">    setA () &#123;</span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'setState'</span>, <span class="string">'a'</span>, <span class="number">11</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    setB () &#123;</span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'setState'</span>, <span class="string">'b'</span>, <span class="number">22</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    setC () &#123;</span><br><span class="line">      <span class="keyword">this</span>.$store.commit(<span class="string">'setState'</span>, <span class="string">'c'</span>, <span class="number">33</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：组件仍然保有局部状态</strong></p>
+<p>参考：<br>Vuex：<a href="https://vuex.vuejs.org/zh/installation.html" target="_blank" rel="noopener">https://vuex.vuejs.org/zh/installation.html</a></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/11/11/vuex-getter/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          vuex：getter
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/06/lazy-loading-routes/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vue-router：路由懒加载</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

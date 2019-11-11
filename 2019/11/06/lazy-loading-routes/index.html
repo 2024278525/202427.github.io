@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="博客（2024278525）">
 <meta property="og:description" content="为什么需要懒加载在单页应用中，如果没有应用懒加载，运用webpack打包后的文件将会异常的大，造成进入首页时，需要加载的内容过多，延时过长，不利于用户体验，而运用懒加载则可以将页面进行划分，需要的时候加载页面，可以有效的分担首页所承担的加载压力，减少首页加载用时 什么是懒加载懒加载也叫延迟加载，即在需要的时候进行加载，随用随载。 vue是如何实现路由组件懒加载的结合 Vue 的异步组件和 Webp">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-07T07:08:07.021Z">
+<meta property="og:updated_time" content="2019-11-08T02:54:30.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue-router：路由懒加载">
 <meta name="twitter:description" content="为什么需要懒加载在单页应用中，如果没有应用懒加载，运用webpack打包后的文件将会异常的大，造成进入首页时，需要加载的内容过多，延时过长，不利于用户体验，而运用懒加载则可以将页面进行划分，需要的时候加载页面，可以有效的分担首页所承担的加载压力，减少首页加载用时 什么是懒加载懒加载也叫延迟加载，即在需要的时候进行加载，随用随载。 vue是如何实现路由组件懒加载的结合 Vue 的异步组件和 Webp">
@@ -96,6 +96,7 @@
 
 <p><strong>注意</strong></p>
 <p>如果您使用的是 Babel，你将需要添加 syntax-dynamic-import 插件，才能使 Babel 可以正确地解析语法。</p>
+<p><strong>参考</strong><br>vue异步组件：<a href="https://cn.vuejs.org/v2/guide/components-dynamic-async.html#%E5%BC%82%E6%AD%A5%E7%BB%84%E4%BB%B6" target="_blank" rel="noopener">https://cn.vuejs.org/v2/guide/components-dynamic-async.html#异步组件</a><br>webpack代码分割：<a href="https://webpack.docschina.org/guides/code-splitting/" target="_blank" rel="noopener">https://webpack.docschina.org/guides/code-splitting/</a></p>
 <!-- 在webpack中有三种方式实现按需加载：[http://www.bubuko.com/infodetail-3094182.html](http://www.bubuko.com/infodetail-3094182.html)
 
 ### require-ensure和require-amd
@@ -108,7 +109,6 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">require.ensure(</span><br><span class="line">  dependencies: string/[], </span><br><span class="line">  callback: <span class="keyword">function</span>(require), </span><br><span class="line">  chunkname: string</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dependencies：依赖的模块数组</span><br><span class="line">callback：回调函数，该函数调用时会传入一个require参数</span><br><span class="line">chunkname：模块名，用于构建时生成文件时命名使用</span><br></pre></td></tr></table></figure>
 
 <p> –&gt;</p>
-<p><strong>参考</strong><br>vue异步组件：<a href="https://cn.vuejs.org/v2/guide/components-dynamic-async.html#%E5%BC%82%E6%AD%A5%E7%BB%84%E4%BB%B6">https://cn.vuejs.org/v2/guide/components-dynamic-async.html#异步组件</a><br>webpack代码分割：<a href="https://webpack.docschina.org/guides/code-splitting/">https://webpack.docschina.org/guides/code-splitting/</a></p>
 -->
       
 
@@ -119,6 +119,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/11/08/vuex/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Vuex
+        
+      </div>
+    </a>
   
   
     <a href="/2019/11/06/js-basis/" id="article-nav-older" class="article-nav-link-wrap">

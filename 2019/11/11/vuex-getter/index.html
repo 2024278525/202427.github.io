@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>vuex：getter | 博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Vuex 允许我们在 store 中定义“getter”（可以认为是 store 的计算属性）。就像计算属性一样，getter 的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。 Getter 接受 state 作为其第一个参数： 1234567891011121314151617181920212223242526272829303132333435363738//s">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vuex：getter">
+<meta property="og:url" content="http://2024278525.github.io/2019/11/11/vuex-getter/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:description" content="Vuex 允许我们在 store 中定义“getter”（可以认为是 store 的计算属性）。就像计算属性一样，getter 的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。 Getter 接受 state 作为其第一个参数： 1234567891011121314151617181920212223242526272829303132333435363738//s">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-11T08:33:27.412Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vuex：getter">
+<meta name="twitter:description" content="Vuex 允许我们在 store 中定义“getter”（可以认为是 store 的计算属性）。就像计算属性一样，getter 的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。 Getter 接受 state 作为其第一个参数： 1234567891011121314151617181920212223242526272829303132333435363738//s">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-vuex-getter" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      vuex：getter
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/11/vuex-getter/" class="article-date">
+  <time datetime="2019-11-11T05:55:05.000Z" itemprop="datePublished">2019-11-11</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Vuex 允许我们在 store 中定义“getter”（可以认为是 store 的计算属性）。就像计算属性一样，getter 的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。</p>
+<p>Getter 接受 state 作为其第一个参数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todos: [</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">text</span>: <span class="string">'1'</span>, <span class="attr">done</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">text</span>: <span class="string">'2'</span>, <span class="attr">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;, </span><br><span class="line">  getters: &#123;</span><br><span class="line">    doneTodos: <span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> state.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.done)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.js</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123; </span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      a: <span class="string">'1'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, </span><br><span class="line"></span><br><span class="line">  computed: &#123;</span><br><span class="line">    doneTodos () &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.doneTodos <span class="comment">// -&gt; [&#123; id: 1, text: '1', done: true &#125;]</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过属性访问getters"><a href="#通过属性访问getters" class="headerlink" title="通过属性访问getters"></a>通过属性访问getters</h3><p>Getter 会暴露为 store.getters 对象，你可以以属性的形式访问这些值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line">getters: &#123;</span><br><span class="line">  doneTodos: <span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> state.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.done)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//Getter 也可以接受其他 getter 作为第二个参数</span></span><br><span class="line">  doneTodosCount: <span class="function">(<span class="params">state, getters</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> getters.doneTodos.length </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line">computed: &#123;</span><br><span class="line">  doneTodos () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.todoTodos <span class="comment">// -&gt; [&#123; id: 1, text: '1', done: true &#125;]</span></span><br><span class="line">  &#125;,</span><br><span class="line">  doneTodosCount () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.doneTodosCount <span class="comment">// -&gt; 1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意，getter 在通过属性访问时是作为 Vue 的响应式系统的一部分缓存其中的。</strong></p>
+<h3 id="通过方法访问getters"><a href="#通过方法访问getters" class="headerlink" title="通过方法访问getters"></a>通过方法访问getters</h3><p>你也可以通过让 getter 返回一个函数，来实现给 getter 传参。在你对 store 里的数组进行查询时非常有用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line">getters: &#123;</span><br><span class="line">  getTodosById: <span class="function">(<span class="params">state</span>) =&gt;</span> <span class="function">(<span class="params">id</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> state.todos.find(<span class="function"><span class="params">todo</span> =&gt;</span> todo.id === id)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line">computed: &#123;</span><br><span class="line">  getTodoById () &#123;</span><br><span class="line">    <span class="keyword">this</span>.$store.getters.getTodoById(<span class="number">1</span>) <span class="comment">// -&gt; &#123; id: 1, text: '1', done: true &#125;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意，getter 在通过方法访问时，每次都会去进行调用，而不会缓存结果。</strong></p>
+<h2 id="mapGetters-辅助函数"><a href="#mapGetters-辅助函数" class="headerlink" title="mapGetters 辅助函数"></a>mapGetters 辅助函数</h2><p>作用与mapSate相似，mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line">getters: &#123;</span><br><span class="line">  doneTodos: <span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> state.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.done)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"><span class="keyword">import</span> &#123; mapGetters &#125; <span class="keyword">from</span> <span class="string">'vuex'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    <span class="comment">//使用对象展开运行符将getter混入computed对象中</span></span><br><span class="line">    ...mapGetters([</span><br><span class="line">      <span class="string">'doneTodos'</span>,</span><br><span class="line">      <span class="comment">//或 如果你想将一个 getter 属性另取一个名字，使用对象形式</span></span><br><span class="line">      <span class="string">'todo'</span>: <span class="string">'doneTodos'</span></span><br><span class="line">    ])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/11/11/vuex-mutation/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          vuex：mutation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/08/vuex/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Vuex</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

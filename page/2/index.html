@@ -29,6 +29,151 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/30/git/">Git：基本操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/30/git/" class="article-date">
+  <time datetime="2019-10-30T07:45:22.000Z" itemprop="datePublished">2019-10-30</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Git-初始化"><a href="#Git-初始化" class="headerlink" title="Git 初始化"></a>Git 初始化</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-查看状态"><a href="#Git-查看状态" class="headerlink" title="Git 查看状态"></a>Git 查看状态</h4><p>查看内容作了哪些改动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-把文件添加到版本库"><a href="#Git-把文件添加到版本库" class="headerlink" title="Git 把文件添加到版本库"></a>Git 把文件添加到版本库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add . </span><br><span class="line">或</span><br><span class="line">$ git add file</span><br></pre></td></tr></table></figure>
+
+<p>把文件readme.txt添加到仓库 $ git add readme.md</p>
+<h4 id="Git-把文件提交到仓库"><a href="#Git-把文件提交到仓库" class="headerlink" title="Git 把文件提交到仓库"></a>Git 把文件提交到仓库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"comments"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-查看分支"><a href="#Git-查看分支" class="headerlink" title="Git 查看分支"></a>Git 查看分支</h4><p>分支，就是说开发者创建一个自己的地盘，不和别人共享；查看分支就是查看当前仓库分支有哪些。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch</span><br></pre></td></tr></table></figure>
+
+<h4 id="Git-新建分支"><a href="#Git-新建分支" class="headerlink" title="Git 新建分支"></a>Git 新建分支</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b name</span><br><span class="line">或</span><br><span class="line">git switch -c name</span><br></pre></td></tr></table></figure>
+
+<p>新建名为name的分支，并切换到该分支上。</p>
+<h4 id="Git-切换分支"><a href="#Git-切换分支" class="headerlink" title="Git 切换分支"></a>Git 切换分支</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout name</span><br><span class="line">或</span><br><span class="line">git switch name</span><br></pre></td></tr></table></figure>
+
+<p>把仓库分支，切换到name分支上</p>
+<h4 id="Git-分支合并"><a href="#Git-分支合并" class="headerlink" title="Git 分支合并"></a>Git 分支合并</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git merge name</span><br></pre></td></tr></table></figure>
+
+<p>把指定分支（name）合并到当前分支</p>
+<h4 id="Git-把本地仓库提交到远程仓库上"><a href="#Git-把本地仓库提交到远程仓库上" class="headerlink" title="Git 把本地仓库提交到远程仓库上"></a>Git 把本地仓库提交到远程仓库上</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin name</span><br></pre></td></tr></table></figure>
+
+<p>把提交到远程仓库的name分支上</p>
+<h4 id="Git-把远程仓库的内容pull下来"><a href="#Git-把远程仓库的内容pull下来" class="headerlink" title="Git 把远程仓库的内容pull下来"></a>Git 把远程仓库的内容pull下来</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin master</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-yimeima" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/30/yimeima/">项目：依美二维码官网</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/30/yimeima/" class="article-date">
+  <time datetime="2019-10-30T07:10:58.000Z" itemprop="datePublished">2019-10-30</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网址: <a href="http://yimeima.com/" target="_blank" rel="noopener">依美二维码官网</a></p>
+<p>依美二维码（简称：依美码）是城北科技旗下的营运品牌。</p>
+<p>依美码致力于为市场提供以移动互联网创新模式的研发产品及解决方案，深耕于图像识别及近场通讯、移动互联网、大数据、智能营销等领域的科技创新。依美码团队竭诚成为国内领先的大数据赋能整体解决方案提供商，利用二维码等赋码技术，以场景为入口，以数据驱动为手段，搭建集智能营销、渠道管控、防伪溯源、一物一码、新零售、区块链应用等方向的大数据引擎，不仅为企业产品安全保驾护航，更为企业实现信息化战略，开展数字化管理与移动营销提供强有力的支持。依美码自上线以来，就以强大的研发技术、安全可靠的云系统、完善到位的售后服务征服了数以万计的客户。</p>
+<p>工作内容：负责整站前端部分的搭建及维护。</p>
+<p><img src="//2024278525.github.io/2019/10/30/yimeima/pic.jpg" alt="依美二维码官网"></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ma-yimeima" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/30/ma-yimeima/">项目：依美二维码自助生成系统</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/30/ma-yimeima/" class="article-date">
+  <time datetime="2019-10-30T07:00:41.000Z" itemprop="datePublished">2019-10-30</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网址: <a href="http://ma.yimeima.com" target="_blank" rel="noopener">依美二维码自助生成系统</a></p>
+<p>该网站支持用户使用多种模板，配合企业的营销、宣传活动，让消费者扫码即可直接参与抽奖、领取积分、领取红包等活动，还能让消费者扫码进入会员积分商城，吸引消费者成为会员，增加用户粘性，促进二次消费。企业可以将二维码附于名片、海报、产品等地方，消费者扫码即可查看企业信息、最新资讯与近期活动，达到高效的宣传推广、营销促销效果。企业还可以将二维码附于办公室门外，用于员工签到、打卡。将二维码附于员工工作证，有效地实现员工信息智能化管理。</p>
+<p>工作内容：负责整站前端部分的搭建及维护（官网、用户管理后台）</p>
+<p>（1）官网：首页（二维码生成及美化、模板展示预览）、帮助中心</p>
+<p>（2）用户管理后台</p>
+<p>① 注册登录（绑定手机/微信）、找回修改密码<br>② 数据统计：二维码数据统计图表<br>③ 二维码管理：二维码目录增删改、二维码增删改查迁移发布下载、二维码在线购买（微信购买、账号余额购买）、模版展示预览等。<br>④ 二维码制作：二维码在线制作编辑，微信分享信息、查看权限，统计浏览量等，二维码内容同时在移动与pc端展示。<br>⑤ 设置：账号信息、企业信息、账号充值、消费记录等</p>
+<!-- ⑦⑥⑧⑨⑩⑪⑫ -->
+<p><img src="//2024278525.github.io/2019/10/30/ma-yimeima/pic.jpg" alt="依美二维码自助生成系统"></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-zhitan" class="article article-type-post" itemscope itemprop="blogPost">
   
   <div class="article-inner">
