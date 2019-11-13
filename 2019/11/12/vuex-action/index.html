@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>vuex：action | 博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="mutation 必须同步执行这个限制么，Action 就不受约束！我们可以在 action 内部执行异步操作 Action 类似于 mutation，不同在于： Action 提交的是 mutation，而不是直接变更状态。Action 可以包含任意异步操作 123456789101112131415161718192021222324252627282930313233343536373839">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vuex：action">
+<meta property="og:url" content="http://2024278525.github.io/2019/11/12/vuex-action/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:description" content="mutation 必须同步执行这个限制么，Action 就不受约束！我们可以在 action 内部执行异步操作 Action 类似于 mutation，不同在于： Action 提交的是 mutation，而不是直接变更状态。Action 可以包含任意异步操作 123456789101112131415161718192021222324252627282930313233343536373839">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-13T03:44:56.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vuex：action">
+<meta name="twitter:description" content="mutation 必须同步执行这个限制么，Action 就不受约束！我们可以在 action 内部执行异步操作 Action 类似于 mutation，不同在于： Action 提交的是 mutation，而不是直接变更状态。Action 可以包含任意异步操作 123456789101112131415161718192021222324252627282930313233343536373839">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-vuex-action" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      vuex：action
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/12/vuex-action/" class="article-date">
+  <time datetime="2019-11-12T06:57:13.000Z" itemprop="datePublished">2019-11-12</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>mutation 必须同步执行这个限制么，Action 就不受约束！我们可以在 action 内部执行异步操作</strong></p>
+<p>Action 类似于 mutation，不同在于：</p>
+<p>Action 提交的是 mutation，而不是直接变更状态。<br>Action 可以包含任意异步操作</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vue.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    icrement (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;,</span><br><span class="line">    icrementBy (state, payload) &#123;</span><br><span class="line">      state.count += payload.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    increment (context) &#123;</span><br><span class="line">      context.commit(<span class="string">'increment'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">//或用到 ES2015 的 参数解构 来简化代码（特别是我们需要调用 commit 很多次的时候）</span></span><br><span class="line">    increment (&#123; commit &#125;) &#123;</span><br><span class="line">      commit(<span class="string">'increment'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">//action 内部执行异步操作</span></span><br><span class="line">    incrementAsync (&#123; commit &#125;) &#123;</span><br><span class="line">      setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        commit(<span class="string">'icrementBy'</span>)</span><br><span class="line">      &#125;, <span class="number">1000</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line">methods: &#123;</span><br><span class="line">  increment () &#123;</span><br><span class="line">    <span class="comment">//Action 通过 store.dispatch 方法触发</span></span><br><span class="line">    <span class="keyword">this</span>.$store.dispatch(<span class="string">'increment'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以载荷形式分发</span></span><br><span class="line">    <span class="keyword">this</span>.$store.dispatch(<span class="string">'incrementAsync'</span>, &#123;</span><br><span class="line">      count: <span class="number">1</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以对象形式分发</span></span><br><span class="line">    <span class="keyword">this</span>.$store.dispatch(&#123;</span><br><span class="line">      type: <span class="string">'incrementAsync'</span>,</span><br><span class="line">      count: <span class="number">10</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p><strong>Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象，因此你可以调用 context.commit 提交一个 mutation，或者通过 context.state 和 context.getters 来获取 state 和 getters。</strong></p>
+<p>来看一个更加实际的购物车示例，涉及到调用异步 API 和分发多重 mutation：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mutation-types.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CHECKOUT_REQUEST = <span class="string">'CHECKOUT_REQUEST'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CHECKOUT_SUCCESS = <span class="string">'CHECKOUT_SUCCESS'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CHECKOUT_FAILURE = <span class="string">'CHECKOUT_FAILURE'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> types <span class="keyword">from</span> <span class="string">'./mutation-types'</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vue.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">1</span>,</span><br><span class="line">    cart: [],</span><br><span class="line">    paySuccess: <span class="literal">null</span>,</span><br><span class="line">    payFail: <span class="literal">null</span></span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    [types.CHECKOUT_REQUEST] (state) &#123;</span><br><span class="line">      state.cart = []</span><br><span class="line">    &#125;,</span><br><span class="line">    [types.CHECKOUT_SUCCESS] (state) &#123;</span><br><span class="line">      state.paySuccess = <span class="number">1</span></span><br><span class="line">    &#125;,</span><br><span class="line">    [types.CHECKOUT_FAILURE] (state, saveCartItem) &#123;</span><br><span class="line">      state.payFail = <span class="number">0</span></span><br><span class="line">      state.cart = [...saveCartItem]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    checkout (&#123; commit, state &#125;, product) &#123;</span><br><span class="line">      <span class="comment">// 把当前购物车的物品备份起来</span></span><br><span class="line">      <span class="keyword">const</span> saveCartItem = [...state.cart]</span><br><span class="line">      <span class="comment">// 发出结账请求，然后乐观地清空购物车</span></span><br><span class="line">      commit(<span class="string">'types.CHECKOUK_REQUEST'</span>)</span><br><span class="line">      <span class="comment">// 购物 API 接受一个成功回调和一个失败回调</span></span><br><span class="line">      shop.buyProducts(</span><br><span class="line">        product,</span><br><span class="line">         <span class="comment">// 成功操作</span></span><br><span class="line">        () =&gt; commit(types.CHECKOUT_SUCCESS)</span><br><span class="line">        <span class="comment">// 失败操作</span></span><br><span class="line">        () =&gt; commit(types.CHECKOUT_FAILURE, saveCartItem)</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line">methods: &#123;</span><br><span class="line">  checkout () &#123;</span><br><span class="line">    <span class="keyword">this</span>.$store.dispatch(&#123;</span><br><span class="line">      type: <span class="string">'checkout'</span>,</span><br><span class="line">      product: <span class="keyword">this</span>.product</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="mapActions-辅助函数"><a href="#mapActions-辅助函数" class="headerlink" title="mapActions 辅助函数"></a>mapActions 辅助函数</h2><p>你在组件中使用 this.$store.dispatch(‘xxx’) 分发 action，或者使用 mapActions 辅助函数将组件的 methods 映射为 store.dispatch 调用（需要先在根节点注入 store）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vue.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">1</span></span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    icrement (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;,</span><br><span class="line">    incrementBy (state, payload) &#123;</span><br><span class="line">      state.count += payload.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    increment (&#123; commit &#125;) &#123;</span><br><span class="line">      commit(<span class="string">'increment'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    incrementBy (&#123; commit &#125;, payload) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span> (resolve, reject) &#123;</span><br><span class="line">        shop.cartProducts(&#123; product &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          commit(<span class="string">'incrementBy'</span>, res)</span><br><span class="line">          resolve(res)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line"></span><br><span class="line">Vue.component(<span class="string">'my-components'</span>, &#123;</span><br><span class="line">  template: <span class="string">`&lt;div&gt;</span></span><br><span class="line"><span class="string">    &lt;button @click="increment"&gt;&lt;/button&gt;</span></span><br><span class="line"><span class="string">    &lt;button @click="add"&gt;&lt;/button&gt;</span></span><br><span class="line"><span class="string">    &lt;button @click="incrementBy"&gt;&lt;/button&gt;</span></span><br><span class="line"><span class="string">  &lt;/div&gt;`</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">  components: &#123; <span class="string">'my-components'</span> &#125;,</span><br><span class="line">  </span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapActions([<span class="string">'increment'</span>]),</span><br><span class="line"></span><br><span class="line">    ...mapActions(&#123;</span><br><span class="line">      add: <span class="string">'increment'</span></span><br><span class="line">    &#125;),</span><br><span class="line"></span><br><span class="line">    incrementBy () &#123;</span><br><span class="line">      <span class="keyword">this</span>.$store.dispatch(<span class="string">'incrementBy'</span>, &#123; <span class="keyword">this</span>.count &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(res)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="组合-Action"><a href="#组合-Action" class="headerlink" title="组合 Action"></a>组合 Action</h2><p>Action 通常是异步的，那么如何知道 action 什么时候结束呢？更重要的是，我们如何才能组合多个 action，以处理更加复杂的异步流程？</p>
+<p>首先，你需要明白 store.dispatch 可以处理被触发的 action 的处理函数返回的 Promise，并且 store.dispatch 仍旧返回 Promise：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//store.js</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Vue.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">1</span></span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;,</span><br><span class="line">    incrementBy (state, payload) &#123;</span><br><span class="line">      state.count += n</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, </span><br><span class="line">  actions: &#123;</span><br><span class="line">    actionA (&#123; commit &#125;) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span> (<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          resolve()</span><br><span class="line">        &#125;, <span class="number">1000</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    actionB (&#123; dispatch, commit&#125;) &#123;</span><br><span class="line">      <span class="keyword">return</span> dispatch(<span class="string">'actionA'</span>).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        commit(<span class="string">'incrementBy'</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">//或</span></span><br><span class="line">    <span class="keyword">async</span> actionA (&#123; commit &#125;) &#123;</span><br><span class="line">      commit(<span class="string">'increment'</span>, <span class="keyword">await</span> getData())</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">async</span> actionB (&#123; dispatch, commit &#125;) &#123;</span><br><span class="line">      <span class="keyword">await</span> dispatch(<span class="string">'actionA'</span>) <span class="comment">//等待actionA完成</span></span><br><span class="line">      commit(<span class="string">'incrementBy'</span>, <span class="keyword">await</span> getOtherData())</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//index.vue</span></span><br><span class="line">methods: &#123;</span><br><span class="line">  increment () &#123;</span><br><span class="line">    <span class="keyword">this</span>.$store.dispatch(<span class="string">'actionA'</span>).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/11/vuex-mutation/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vuex：mutation</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
