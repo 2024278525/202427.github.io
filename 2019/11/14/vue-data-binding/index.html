@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>vue：双向数据绑定 | 博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="数据绑定数据绑定就是让数据M（model）展示到视图V（view）上，我们常见的架构模式有MVC、MVP、MVVM模式，目前前端框架基本上都是采用MVVM模式实现双向绑定，Vue也不例外。但是各个框架实现双向绑定的方法略有不同。  发布订阅模式 Angular的脏查机制 数据劫持  而Vue则采用的是数据劫持与发布订阅模式结合的方式实现双向绑定，数据劫持主要通过 Object.defineprop">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue：双向数据绑定">
+<meta property="og:url" content="http://2024278525.github.io/2019/11/14/vue-data-binding/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:description" content="数据绑定数据绑定就是让数据M（model）展示到视图V（view）上，我们常见的架构模式有MVC、MVP、MVVM模式，目前前端框架基本上都是采用MVVM模式实现双向绑定，Vue也不例外。但是各个框架实现双向绑定的方法略有不同。  发布订阅模式 Angular的脏查机制 数据劫持  而Vue则采用的是数据劫持与发布订阅模式结合的方式实现双向绑定，数据劫持主要通过 Object.defineprop">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-19T06:18:48.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue：双向数据绑定">
+<meta name="twitter:description" content="数据绑定数据绑定就是让数据M（model）展示到视图V（view）上，我们常见的架构模式有MVC、MVP、MVVM模式，目前前端框架基本上都是采用MVVM模式实现双向绑定，Vue也不例外。但是各个框架实现双向绑定的方法略有不同。  发布订阅模式 Angular的脏查机制 数据劫持  而Vue则采用的是数据劫持与发布订阅模式结合的方式实现双向绑定，数据劫持主要通过 Object.defineprop">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-vue-data-binding" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      vue：双向数据绑定
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/14/vue-data-binding/" class="article-date">
+  <time datetime="2019-11-14T03:04:02.000Z" itemprop="datePublished">2019-11-14</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h2><p>数据绑定就是让数据M（model）展示到视图V（view）上，我们常见的架构模式有MVC、MVP、MVVM模式，目前前端框架基本上都是采用MVVM模式实现双向绑定，Vue也不例外。但是各个框架实现双向绑定的方法略有不同。</p>
+<ul>
+<li>发布订阅模式</li>
+<li>Angular的脏查机制</li>
+<li>数据劫持</li>
+</ul>
+<p>而Vue则采用的是数据劫持与<a href="/2019/11/14/observer-and-pubsub/">发布订阅模式</a>结合的方式实现双向绑定，数据劫持主要通过 <strong>Object.defineproperty</strong> 来实现。</p>
+<p><strong>Obeject.defineProperty()</strong> 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回这个对象。</p>
+<p><strong>语法</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(obj, prop, descriptor)</span><br><span class="line"></span><br><span class="line"><span class="comment">//obj：要在其上定义属性的对象</span></span><br><span class="line"><span class="comment">//prop：要定义或修改的属性名称</span></span><br><span class="line"><span class="comment">//descriptor：将被定义或修改的属性描述</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="vue双向数据绑定"><a href="#vue双向数据绑定" class="headerlink" title="vue双向数据绑定"></a>vue双向数据绑定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;input type=&quot;text&quot; v-model=&quot;name&quot;&gt;</span><br><span class="line">  &lt;h1&gt;&#123;&#123;name&#125;&#125;&lt;/h1&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 监听器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">data, key, value</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//调用递归监听所有属性</span></span><br><span class="line">  observer(value)</span><br><span class="line">  <span class="keyword">var</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(data, key, &#123;</span><br><span class="line">    <span class="keyword">get</span>: function () &#123;</span><br><span class="line">      <span class="keyword">if</span> (Dep.target) &#123;</span><br><span class="line">        dep.addSub(Dep.target)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> value</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">set</span>: function (newVal) &#123;</span><br><span class="line">      <span class="keyword">if</span> (value !== newVal) &#123;</span><br><span class="line">        value = newVal</span><br><span class="line">        dep.notify() <span class="comment">//通知订阅器（发布）</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observer</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!data || <span class="keyword">typeof</span> data !== <span class="string">'object'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">Object</span>.keys(data).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">    defineReactive(data, key, data[key])</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dep</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.subs = []</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dep.prototype.addSub = <span class="function"><span class="keyword">function</span> (<span class="params">sub</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.subs.push(sub)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dep.prototype.notify = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'属性变化通知Watcher执行更新视图函数'</span>)</span><br><span class="line">  <span class="keyword">this</span>.subs.forEach(<span class="function"><span class="params">sub</span> =&gt;</span> &#123;</span><br><span class="line">    sub.update()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dep.target = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 订阅者watcher</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Watcher</span> (<span class="params">vm, prop, callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.vm = vm</span><br><span class="line">  <span class="keyword">this</span>.prop = prop</span><br><span class="line">  <span class="keyword">this</span>.callback = callback</span><br><span class="line">  <span class="keyword">this</span>.value = <span class="keyword">this</span>.get()</span><br><span class="line">&#125;</span><br><span class="line">Watcher.prototype = &#123;</span><br><span class="line">  update: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> value = <span class="keyword">this</span>.vm.$data[<span class="keyword">this</span>.prop]</span><br><span class="line">    <span class="keyword">const</span> oldVal = <span class="keyword">this</span>.value</span><br><span class="line">    <span class="keyword">if</span> (value !== oldVal) &#123;</span><br><span class="line">      <span class="keyword">this</span>.value = value</span><br><span class="line">      <span class="keyword">this</span>.callback(value)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, </span><br><span class="line">  <span class="keyword">get</span>: function () &#123;</span><br><span class="line">    Dep.target = <span class="keyword">this</span> <span class="comment">//存储订阅器</span></span><br><span class="line">    <span class="keyword">const</span> value = <span class="keyword">this</span>.vm.$data[<span class="keyword">this</span>.prop] <span class="comment">//因为属性被监听，这一步会执行监听器里的get方法</span></span><br><span class="line">    Dep.target = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这一步我们把 Watcher 也给弄了出来，到这一步我们已经实现了一个简单的双向绑定了，</span></span><br><span class="line"><span class="comment">//我们可以尝试把两者结合起来看下效果。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Mvue</span> (<span class="params">options, prop</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$options = options</span><br><span class="line">  <span class="keyword">this</span>.$data = options.data</span><br><span class="line">  <span class="keyword">this</span>.$prop = prop</span><br><span class="line">  <span class="keyword">this</span>.$el = <span class="built_in">document</span>.querySelector(options.el)</span><br><span class="line">  <span class="keyword">this</span>.init()</span><br><span class="line">&#125;</span><br><span class="line">Mvue.prototype.init = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  observer(<span class="keyword">this</span>.$data)</span><br><span class="line">  <span class="keyword">this</span>.$el.textContent = <span class="keyword">this</span>.$data[<span class="keyword">this</span>.$prop]</span><br><span class="line">  <span class="keyword">new</span> Watcher(<span class="keyword">this</span>, <span class="keyword">this</span>.$prop, value =&gt; &#123;</span><br><span class="line">    <span class="keyword">this</span>.$el.textContent = value</span><br><span class="line">  &#125;) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里我们尝试利用一个实例来把数据与需要监听的属性传递进来，通过监听器监听数据，</span></span><br><span class="line"><span class="comment">//然后添加属性订阅，绑定更新函数。</span></span><br><span class="line"><span class="keyword">const</span> vm = <span class="keyword">new</span> Mvue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    name: <span class="string">'手机消毒纸'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="string">'name'</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>参考</strong><br><a href="https://www.cnblogs.com/beevesnoodles/p/9844854.html" target="_blank" rel="noopener">https://www.cnblogs.com/beevesnoodles/p/9844854.html</a></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/11/14/observer-and-pubsub/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          观察者模式与发布-订阅模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/12/vuex-action/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vuex：action</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

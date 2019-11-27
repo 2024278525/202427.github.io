@@ -29,6 +29,154 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-route-components-props" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/05/route-components-props/">vue-router：路由组件传参</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/05/route-components-props/" class="article-date">
+  <time datetime="2019-11-05T07:29:29.000Z" itemprop="datePublished">2019-11-05</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在组件中使用 $route 会使之与其对应路由形成高度耦合，从而使组件只能在某些特定的 URL 上使用，限制了其灵活性。 </p>
+<p>如：有一个子组件需要用到参数(id)，在下案例中可以通过$route.params拿到；<br>但是如果该子组件在某个父组件中直接引入使用占位符的形式插入父组件时，该子组件就无法通过$route.params拿到参数（id）了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> User = &#123;</span><br><span class="line">  template: <span class="string">'&lt;div&gt;User &#123;&#123; $route.params.id &#125;&#125;&lt;/div&gt;'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">'/user/:id'</span>, <span class="attr">component</span>: User &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用 props 将组件和路由解耦，取代与 $route 的耦合，该props有三种模式：布尔模式、对象模式、函数模式</strong></p>
+<h3 id="布尔模式"><a href="#布尔模式" class="headerlink" title="布尔模式"></a>布尔模式</h3><p>props 被设置为 true，route.params 将会被设置为组件属性（props）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> User = &#123;</span><br><span class="line">  props: [<span class="string">'id'</span>],</span><br><span class="line">  template: <span class="string">'&lt;div&gt;User &#123;&#123; id &#125;&#125;&lt;/div&gt;'</span> <span class="comment">//此时id为123</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">'/user/:id'</span>, <span class="attr">component</span>: User, <span class="attr">props</span>: <span class="literal">true</span> &#125;, <span class="comment">//该路由显示单个子组件时</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对于包含命名视图的路由，你必须分别为每个命名视图添加 `props` 选项（即该路由同时显示多个子组件）：</span></span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/user/:id'</span>,</span><br><span class="line">      components: &#123; <span class="attr">default</span>: User, <span class="attr">sidebar</span>: Sidebar &#125;,</span><br><span class="line">      props: &#123; <span class="attr">default</span>: <span class="literal">true</span>, <span class="attr">sidebar</span>: <span class="literal">false</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//当url为：locaolhost:8080/user/123</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="对象模式"><a href="#对象模式" class="headerlink" title="对象模式"></a>对象模式</h3><p>props 是一个对象，它会被按原样设置为组件属性。当 props 是静态的时候有用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> User = &#123;</span><br><span class="line">  props: [<span class="string">'newsletterPopup'</span>, <span class="string">'name'</span>],</span><br><span class="line">  template: <span class="string">'&lt;div&gt;User &#123;&#123; newsletterPopup &#125;&#125; &#123;&#123;name&#125;&#125;&lt;/div&gt;'</span> </span><br><span class="line">  <span class="comment">//此时组件的props -&gt; ['newsletterPopup', 'name']，同routes中设置的props</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123; </span><br><span class="line">      path: <span class="string">'/promotion/from-newsletter'</span>, </span><br><span class="line">      component: Promotion, </span><br><span class="line">      props: &#123; <span class="attr">newsletterPopup</span>: <span class="literal">false</span>, <span class="attr">name</span>: <span class="number">123</span> &#125; </span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//当url为：locaolhost:8080/promotion/from-newsletter</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="函数模式"><a href="#函数模式" class="headerlink" title="函数模式"></a>函数模式</h3><p>你可以创建一个函数返回 props。这样你便可以将参数转换成另一种类型，将静态值与基于路由的值结合等等。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> User = &#123;</span><br><span class="line">  props: [<span class="string">'query'</span>],</span><br><span class="line">  template: <span class="string">'&lt;div&gt;User &#123;&#123; query &#125;&#125;&lt;/div&gt;'</span> </span><br><span class="line">  <span class="comment">//此时组件的props为 -&gt; ['query']，同routes中设置的props</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123; </span><br><span class="line">      path: <span class="string">'/search'</span>, </span><br><span class="line">      component: SearchUser, </span><br><span class="line">      props: <span class="function">(<span class="params">route</span>) =&gt;</span> (&#123; <span class="attr">query</span>: route.query.q &#125;) <span class="comment">//返回query</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//当url为：locaolhost:8080/search</span></span><br></pre></td></tr></table></figure>
+
+<p>注：请尽可能保持 props 函数为无状态的，因为它只会在路由发生变化时起作用。如果你需要状态来定义 props，请使用包装组件，这样 Vue 才可以对状态变化做出反应。</p>
+<p>vue开发文档：<a href="https://router.vuejs.org/zh/guide/essentials/passing-props.html" target="_blank" rel="noopener">路由组件传参</a></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-query-params" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/01/query-params/">vue-router：params与query传参</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/01/query-params/" class="article-date">
+  <time datetime="2019-11-01T02:39:25.000Z" itemprop="datePublished">2019-11-01</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Vue-router 做路径匹配时支持<strong>动态片段、全匹配片段以及查询参数</strong>（片段指的是 URL 中的一部分）。</p>
+<p><strong>params：</strong>是包含了<strong>动态片段和全匹配片段</strong>的<strong>动态路径参数</strong>，并且该参数值会被设置到 $route.params；params一旦设置在路由，params就是路由的一部分，必须要有；如果没有路由参数，就是一个空对象。<br>  <strong>动态片段</strong>：以冒号开头（如path: ‘user/:id/admin’）-&gt; (url: user/123/admin)；<br>  <strong>全匹配片段</strong>: 想匹配任意路径，我们可以使用通配符(*)；如（path: ‘*‘，会匹配所有路径）并通常用于客户端 404 错误，或（path: ‘/user-*‘，会匹配以 <code>/user-</code> 开头的任意路径）。</p>
+<p><strong>query：</strong> <strong>查询参数</strong>，是拼在url后边的（url: user?id=123）</p>
+<p><strong>注：</strong>（对于params动态路径参数）<br>1、如果路由path配置动态参数（:id），可以使用能提供路由的 name，并配置params或手写完整的带有参数的 path。<br>2、如果路由path配置动态参数（:id），使用手写完整的带有参数的 path的话，又配置另外了params参数，该params会被忽略，$route.params也只能拿到path配置的参数。<br>3、如果路由path配置动态参数（:id），使用提供路由的 name时又不配置了params参数的话，生成的url就会出错。</p>
+<p>5、如果路由path配置动态参数（:id），使用提供路由的 name，又配置了params参数的话，页面跳转后可以拿到params所有参数，但是刷新页面，params除了path配置的动态参数不会丢失，其他都会参数会丢失。<br>6、如果路由path没有配置动态参数（:id），使用提供路由的 name，又配置了params参数的话，url不会显示该params参数，页面跳转后可以拿到params，但是刷新页面params参数会丢失。</p>
+<p><strong>url会显示经（:）或（*）配置的params参数，不会显示未经（:）或（*）配置的params参数，并且未经（:）或（*）配置的params参数在页面刷新后都会丢失</strong>。</p>
+<h3 id="1、params动态片段"><a href="#1、params动态片段" class="headerlink" title="1、params动态片段"></a>1、params动态片段</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 动态路由（动态路径参数）：参数值会被设置到 <span class="keyword">this</span>.$route.params --&gt;</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">      &#123; </span><br><span class="line">        path: <span class="string">'/user/:name/post/:post_id'</span>, </span><br><span class="line">        name: <span class="string">'user'</span>, </span><br><span class="line">        component: User</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">声明式路由</span><br><span class="line">&lt;router-link :to=<span class="string">"&#123; name: 'user', params: &#123; name: 'evan', post_id: 123 &#125;&#125;"</span>&gt;&lt;/router-link&gt;</span><br><span class="line"><span class="comment">// -&gt; /user/evan/post/123</span></span><br><span class="line"></span><br><span class="line">编程式</span><br><span class="line">router.$push(&#123;</span><br><span class="line">  name: <span class="string">'user'</span>,</span><br><span class="line">  params: &#123;</span><br><span class="line">    name: <span class="string">'evan'</span>,</span><br><span class="line">    post_id: <span class="number">123</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// -&gt; /user/evan/post/123</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">路由模式（path）：user/:name/post/:post_id</span><br><span class="line"></span><br><span class="line">$route.params：&#123; <span class="attr">name</span>: <span class="string">'evan'</span>, <span class="attr">post_id</span>: <span class="number">123</span> &#125; </span><br><span class="line"></span><br><span class="line">匹配路径（url）：/user/evan/post/<span class="number">123</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2、路由path配置了动态路径参数，params传参"><a href="#2、路由path配置了动态路径参数，params传参" class="headerlink" title="2、路由path配置了动态路径参数，params传参"></a>2、路由path配置了动态路径参数，params传参</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">      &#123; </span><br><span class="line">        path: <span class="string">'/user/:name/post/:post_id'</span>,</span><br><span class="line">        name: <span class="string">'user'</span>, </span><br><span class="line">        component: User</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//提供路由的 name</span></span><br><span class="line">router.push(&#123;</span><br><span class="line">  name: <span class="string">'user'</span>, </span><br><span class="line">  params: &#123; <span class="attr">name</span>: <span class="string">'evan'</span>, <span class="attr">post_id</span>: <span class="number">123</span> &#125; </span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// -&gt; /user/evan/post/123</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// &#123; name: 'evan', post_id: 123 &#125; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">//手写完整的带有参数的 path</span></span><br><span class="line">router.push(&#123;  </span><br><span class="line">  path: <span class="string">`/user/<span class="subst">$&#123;name&#125;</span>/post/<span class="subst">$&#123;post_id&#125;</span>`</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// -&gt; /user/evan/post/123</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// &#123; name: 'evan', post_id: 123 &#125; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">//这里的 params 不生效，通过$route.params也拿不到name1与post_id1。</span></span><br><span class="line">router.push(&#123; </span><br><span class="line">  path: <span class="string">`/user/<span class="subst">$&#123;name&#125;</span>/post/<span class="subst">$&#123;post_id&#125;</span>`</span>, </span><br><span class="line">  params: &#123; <span class="attr">name1</span>: <span class="string">'evan'</span>, <span class="attr">post_id1</span>: <span class="number">123</span> &#125; </span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// -&gt; /user/evan/post/123</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// &#123; name: 'evan', post_id: 123 &#125; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">//这里的 params，通过$route.params首次可以拿到全部params参数，</span></span><br><span class="line"><span class="comment">//刷新后就只能拿到以冒号开头(:name)配置的路径参数，post_id1丢失。</span></span><br><span class="line">router.push(&#123; </span><br><span class="line">  name: <span class="string">`user`</span>, </span><br><span class="line">  params: &#123; <span class="attr">name</span>: <span class="string">'evan'</span>, <span class="attr">post_id</span>: <span class="number">123</span>, <span class="attr">post_id1</span>: <span class="number">123</span> &#125; </span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// -&gt; /user/evan/post/123</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// 首次进入页面&#123; name: 'evan', post_id: 123, post_id1: 123 &#125; </span></span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// 页面刷新后&#123; name: 'evan', post_id: 123 &#125; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用name，不配置params</span></span><br><span class="line">router.push(&#123; </span><br><span class="line">  name: <span class="string">'user'</span>, </span><br><span class="line">  query: &#123; <span class="attr">id</span>: <span class="number">1</span> &#125;</span><br><span class="line">&#125;) </span><br><span class="line"><span class="comment">//-&gt; 生成错误url：/，params一旦设置在路由，params就是路由的一部分，必须要有</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、路由path无动态路径参数，params传参"><a href="#3、路由path无动态路径参数，params传参" class="headerlink" title="3、路由path无动态路径参数，params传参"></a>3、路由path无动态路径参数，params传参</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">      &#123; </span><br><span class="line">        path: <span class="string">'/user/post'</span>,</span><br><span class="line">        name: <span class="string">'user'</span>, </span><br><span class="line">        component: User</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用name，配置params</span></span><br><span class="line">router.push(&#123; </span><br><span class="line">  name: <span class="string">'user'</span>, </span><br><span class="line">  params: &#123; <span class="attr">name</span>: <span class="string">'evan'</span> &#125;</span><br><span class="line">&#125;) </span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// &#123; name: 'evan' &#125;, 刷新后丢失</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用path，配置params</span></span><br><span class="line">router.push(&#123; </span><br><span class="line">  path: <span class="string">'/user'</span>, </span><br><span class="line">  params: &#123; <span class="attr">name</span>: <span class="string">'evan'</span> &#125;</span><br><span class="line">&#125;) </span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// &#123;&#125;, 使用path，params被忽略</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、query（无论路由path是否有配置动态参数，query参数都是拼在url后边的）"><a href="#4、query（无论路由path是否有配置动态参数，query参数都是拼在url后边的）" class="headerlink" title="4、query（无论路由path是否有配置动态参数，query参数都是拼在url后边的）"></a>4、query（无论路由path是否有配置动态参数，query参数都是拼在url后边的）</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">      &#123; </span><br><span class="line">        path: <span class="string">'/user/:name/post/:post_id'</span>, </span><br><span class="line">        name: <span class="string">'user'</span>, </span><br><span class="line">        component: User</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手写完整的带有参数的 path，带查询参数query</span></span><br><span class="line">router.push(&#123; </span><br><span class="line">  path: <span class="string">`/user/<span class="subst">$&#123;name&#125;</span>/post/<span class="subst">$&#123;post_id&#125;</span>`</span>, </span><br><span class="line">  query: &#123; <span class="attr">id</span>: <span class="number">1</span> &#125;</span><br><span class="line">&#125;) </span><br><span class="line"><span class="comment">//-&gt; /user/evan/post/123?id=1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// &#123; name1: 'evan', post_id2: 123 &#125; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用name，不配置params，带查询参数query</span></span><br><span class="line">router.push(&#123; </span><br><span class="line">  name: <span class="string">'user'</span>, </span><br><span class="line">  query: &#123; <span class="attr">id</span>: <span class="number">1</span> &#125;</span><br><span class="line">&#125;) </span><br><span class="line"><span class="comment">//-&gt; 生成错误url：/?id=1，params一旦设置在路由，params就是路由的一部分，必须要有</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用name，配置params，带查询参数query</span></span><br><span class="line">router.push(&#123; </span><br><span class="line">  name: <span class="string">'user'</span>, </span><br><span class="line">  params: &#123; <span class="attr">name</span>: <span class="string">'evan'</span>, <span class="attr">post_id</span>: <span class="number">123</span> &#125;,</span><br><span class="line">  query: &#123; <span class="attr">id</span>: <span class="number">1</span> &#125;</span><br><span class="line">&#125;) </span><br><span class="line"><span class="built_in">console</span>.log($route.params) <span class="comment">// &#123; name: 'evan', post_id: 123 &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>总结：使用路由时用 name 和 path 都可以。用 name 的话，如果有设置动态路径参数，需要额外加上 params；用path的话，path 可以写完整路径（包括参数）, path 的优先级更高，写了 path ，params 这些会被忽略。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hexo-markdown-image" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/31/hexo-markdown-image/">hexo：使用markdown图片</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/10/31/hexo-markdown-image/" class="article-date">
+  <time datetime="2019-10-31T07:49:23.000Z" itemprop="datePublished">2019-10-31</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="hexo-markdown中引用图片"><a href="#hexo-markdown中引用图片" class="headerlink" title="hexo markdown中引用图片"></a>hexo markdown中引用图片</h4><p>安装hexo-asset-image</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install https://github.com/7ym0n/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>配置根目录_config.yml文件中的post_asset_folder为true</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>hexo执行新建文件命令（hexo n xxx）后，会生成xxx.md与xxx文件夹，把图片放进xxx文件夹中，图片引入方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![alt值](xxx/image.jpg <span class="string">"可选title"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注：</p>
+<p>⑴、本地图片需要上传github后，才会生效，因为最终生成图片路径是：根目录_config.yml文件配置的url + 年月日 + xxx文件 + 图片名称。</p>
+<p>⑵、npm install hexo-asset-image –save，如直接安装可能会由于版本兼容问题，导致图片路径错误。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-book-yimeima" class="article article-type-post" itemscope itemprop="blogPost">
   
   <div class="article-inner">

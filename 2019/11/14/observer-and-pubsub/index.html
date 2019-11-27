@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>观察者模式与发布-订阅模式 | 博客（2024278525）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="观察者模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。 应用实例：1、拍卖的时候，拍卖师观察最高标价，然后通知给其他竞价者竞价。2、西游记里面悟空请求菩萨降服红孩儿，菩萨洒了一地水招来一个老乌龟（可以是多个），这个乌龟就是观察者，他观察菩萨洒水这个动作。 主要解决：一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="观察者模式与发布-订阅模式">
+<meta property="og:url" content="http://2024278525.github.io/2019/11/14/observer-and-pubsub/index.html">
+<meta property="og:site_name" content="博客（2024278525）">
+<meta property="og:description" content="观察者模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。 应用实例：1、拍卖的时候，拍卖师观察最高标价，然后通知给其他竞价者竞价。2、西游记里面悟空请求菩萨降服红孩儿，菩萨洒了一地水招来一个老乌龟（可以是多个），这个乌龟就是观察者，他观察菩萨洒水这个动作。 主要解决：一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-19T06:02:12.722Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="观察者模式与发布-订阅模式">
+<meta name="twitter:description" content="观察者模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。 应用实例：1、拍卖的时候，拍卖师观察最高标价，然后通知给其他竞价者竞价。2、西游记里面悟空请求菩萨降服红孩儿，菩萨洒了一地水招来一个老乌龟（可以是多个），这个乌龟就是观察者，他观察菩萨洒水这个动作。 主要解决：一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的">
+  
+    <link rel="alternative" href="/atom.xml" title="博客（2024278525）" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head></html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-observer-and-pubsub" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      观察者模式与发布-订阅模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2019/11/14/observer-and-pubsub/" class="article-date">
+  <time datetime="2019-11-14T07:38:14.000Z" itemprop="datePublished">2019-11-14</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。</p>
+<p><strong>应用实例：</strong><br>1、拍卖的时候，拍卖师观察最高标价，然后通知给其他竞价者竞价。<br>2、西游记里面悟空请求菩萨降服红孩儿，菩萨洒了一地水招来一个老乌龟（可以是多个），这个乌龟就是观察者，他观察菩萨洒水这个动作。</p>
+<p><strong>主要解决：</strong>一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。</p>
+<p><strong>何时使用：</strong>一个对象（目标对象）的状态发生改变，所有的依赖对象（观察者对象）都将得到通知，进行广播通知。</p>
+<p><strong>如何解决：</strong>使用面向对象技术，可以将这种依赖关系弱化。</p>
+<p><strong>关键代码：</strong>在抽象类里有一个 ArrayList 存放观察者们。</p>
+<h3 id="观察者模式-1"><a href="#观察者模式-1" class="headerlink" title="观察者模式"></a>观察者模式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 观察者</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer1</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> () &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  update (val) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'观察者1：'</span> + val)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer2</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> () &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  update (val) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'观察者2：'</span> + val)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//观察者列表</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObserverList</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> () &#123;</span><br><span class="line">    <span class="keyword">this</span>.observerList = []</span><br><span class="line">  &#125;</span><br><span class="line">  add (observer) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.observerList.push(observer)</span><br><span class="line">  &#125;</span><br><span class="line">  remove (observer) &#123;</span><br><span class="line">    <span class="keyword">this</span>.observerList = <span class="keyword">this</span>.observerList.filter(<span class="function"><span class="params">ob</span> =&gt;</span> ob !== observer)</span><br><span class="line">  &#125;</span><br><span class="line">  count () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.observerList.length</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">get</span> (index) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.observerList[index]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//目标</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> () &#123;</span><br><span class="line">    <span class="keyword">this</span>.observer = <span class="keyword">new</span> ObserverList()</span><br><span class="line">  &#125;</span><br><span class="line">  addObserver (observer) &#123;</span><br><span class="line">    <span class="keyword">this</span>.observer.add(observer)</span><br><span class="line">  &#125;</span><br><span class="line">  removeObserver (observer) &#123;</span><br><span class="line">    <span class="keyword">this</span>.observer.remove(observer)</span><br><span class="line">  &#125;</span><br><span class="line">  notify (...args) &#123;</span><br><span class="line">    <span class="keyword">let</span> obCount = <span class="keyword">this</span>.observer.count()</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; obCount; i++) &#123;</span><br><span class="line">      <span class="keyword">this</span>.observer.get(i).update(...args)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建观察者ob1</span></span><br><span class="line"><span class="keyword">let</span> ob1 = <span class="keyword">new</span> Observer1()</span><br><span class="line"><span class="comment">// 创建观察者ob2</span></span><br><span class="line"><span class="keyword">let</span> ob2 = <span class="keyword">new</span> Observer2()</span><br><span class="line"><span class="comment">// 创建目标sub</span></span><br><span class="line"><span class="keyword">let</span> sub = <span class="keyword">new</span> Subject()</span><br><span class="line"><span class="comment">// 目标sub添加观察者ob1 （目标和观察者建立了依赖关系）</span></span><br><span class="line">sub.addObserver(ob1)</span><br><span class="line"><span class="comment">// 目标sub添加观察者ob2</span></span><br><span class="line">sub.addObserver(ob2)</span><br><span class="line"><span class="comment">// 目标sub触发SMS事件（目标主动通知观察者）</span></span><br><span class="line">sub.notify(<span class="string">'I fired `SMS` event'</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>观察者模式优点：</strong><br>1、观察者和被观察者是抽象耦合的。<br>2、建立一套触发机制。</p>
+<p><strong>观察者模式缺点：</strong><br>1、如果一个被观察者对象有很多的直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。<br>2、如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。<br>3、观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。</p>
+<h2 id="发布-订阅模式"><a href="#发布-订阅模式" class="headerlink" title="发布-订阅模式"></a>发布-订阅模式</h2><p>发布/订阅者模式是观察者模式的一种变体。</p>
+<p>在“发布者-订阅者”模式中，发布者发布的消息，不会直接发送给称为订阅者的特定接收者，而是<strong>通过消息通道广播出去</strong>。这意味着发布者和订阅者不知道彼此的存在。存在发布者和订阅者都知道的第三方组件，称为代理或消息代理或事件总线，它过滤所有传入的消息并相应地分发它们。换句话说，发布-订阅是用于在不同系统组件之间传递消息的模式，而这些组件不知道关于彼此身份的任何信息。<br>DOM事件绑定就是典型的发布-订阅模式。</p>
+<p><strong>作用：</strong></p>
+<ul>
+<li>广泛应用于异步编程中(替代了传递回调函数)</li>
+<li>对象之间松散耦合的编写代码</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PubSub</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> () &#123;</span><br><span class="line">    <span class="keyword">this</span>.subscribers = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  subscribe(type, fn) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">Object</span>.prototype.hasOwnProperty.call(<span class="keyword">this</span>.subscribers, type)) &#123;</span><br><span class="line">      <span class="keyword">this</span>.subscribers[type] = []</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.subscribers[type].push(fn)</span><br><span class="line">  &#125;</span><br><span class="line">  unsubscribe(type, fn) &#123;</span><br><span class="line">    <span class="keyword">let</span> listeners = <span class="keyword">this</span>.subscribers[type]</span><br><span class="line">    <span class="keyword">if</span> (!listeners || !listeners.length) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">this</span>.subscribers[type] = listeners.filters(<span class="function"><span class="params">v</span> =&gt;</span> v!== fn)</span><br><span class="line">  &#125;</span><br><span class="line">  publish (type, ...args) &#123;</span><br><span class="line">    <span class="keyword">let</span> listeners = <span class="keyword">this</span>.subscribers[type]</span><br><span class="line">    <span class="keyword">if</span> (!listeners || !listeners.length) <span class="keyword">return</span>;</span><br><span class="line">    listeners.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn(...args))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建事件调度中心，为订阅者和发布者提供调度服务</span></span><br><span class="line"><span class="keyword">let</span> ob = <span class="keyword">new</span> PubSub()</span><br><span class="line"><span class="comment">// A订阅了SMS事件（A只关注SMS本身，而不关心谁发布这个事件）</span></span><br><span class="line">ob.subscribe(<span class="string">'SMS'</span>, (val) =&gt; <span class="built_in">console</span>.log(val))</span><br><span class="line"><span class="comment">// B订阅了SMS事件（B只关注SMS本身，而不关心谁发布这个事件）</span></span><br><span class="line">ob.subscribe(<span class="string">'SMS'</span>, (val) =&gt; <span class="built_in">console</span>.log(val + <span class="number">1</span>))</span><br><span class="line"><span class="comment">// C发布了SMS事件（C只关注SMS本身，不关心谁订阅了这个事件）</span></span><br><span class="line">ob.publish(<span class="string">'SMS'</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参考：<br><a href="https://www.cnblogs.com/LuckyWinty/p/5796190.html" target="_blank" rel="noopener">https://www.cnblogs.com/LuckyWinty/p/5796190.html</a></p>
+<!-- [https://www.cnblogs.com/onepixel/p/10806891.html](https://www.cnblogs.com/onepixel/p/10806891.html) -->
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/11/19/mvc-mvp-mvvm/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mvc-mvp-mvvm
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/14/vue-data-binding/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vue：双向数据绑定</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/2024278525" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2019 2024278525 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/2024278525" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
